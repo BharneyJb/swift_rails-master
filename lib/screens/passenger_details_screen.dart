@@ -221,8 +221,8 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
           children: [
             Container(
               padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFDECDD),
+              decoration: const BoxDecoration(
+                color: Color(0xFFFDECDD),
                 shape: BoxShape.circle,
               ),
               child: const Icon(Icons.train_outlined, color: Color(0xFFF2994A)),
@@ -251,7 +251,7 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
     required ValueChanged<T?> onChanged,
   }) {
     return DropdownButtonFormField<T>(
-      value: value,
+      initialValue: value,
       items: items,
       onChanged: onChanged,
       icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).primaryColor),

@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:swyft_rails/views/utils/seat_layout.dart';
 
 class CustomDropdown extends StatefulWidget {
   const CustomDropdown({
@@ -40,6 +39,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
       // 'Option 1' : SeatLayout(optionText: 'Option 1 Custom Widget')
     };
   }
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

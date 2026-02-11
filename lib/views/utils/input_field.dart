@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class InputField extends StatelessWidget {
-  InputField({
+  const InputField({
     Key? key,
     required this.controller,
     required this.hintText,

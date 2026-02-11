@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:internationalization/internationalization.dart';
+import 'package:intl/intl.dart';
 import 'package:swyft_rails/models/schedule.dart';
-import 'package:swyft_rails/models/station.dart';
 import 'package:swyft_rails/screens/passenger_details_screen.dart';
-import 'package:swyft_rails/views/navpages/passenger_details.dart';
 
 class ScheduleCard extends StatelessWidget {
   final Schedule schedule;
@@ -44,21 +42,21 @@ class ScheduleCard extends StatelessWidget {
                         Text('Departure Time',
                             style: TextStyle(
                                 fontSize: 16.0, color: Theme.of(context).primaryColor)),
-                        SizedBox(height: 10.0),
+                        const SizedBox(height: 10.0),
                         Text(
                           schedule.departureStation, // e.g., 'LOS'
-                          style: TextStyle(fontSize: 15.0),
+                          style: const TextStyle(fontSize: 15.0),
                         ),
-                        SizedBox(height: 10.0),
+                        const SizedBox(height: 10.0),
                         Row(
                           children: [
                             CircleAvatar(
                               backgroundColor: Colors.grey.shade300,
                               child: Image.asset('assets/icon/icon.png'),
                             ),
-                            SizedBox(width: 5.0),
+                            const SizedBox(width: 5.0),
                             Text('Train: ${schedule.name}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 14.0, color: Colors.grey)),
                           ],
                         ),
@@ -66,7 +64,7 @@ class ScheduleCard extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
 
                   // Right Side: Arrival
                   Expanded(
@@ -77,15 +75,15 @@ class ScheduleCard extends StatelessWidget {
                         Text('Arrival Time',
                             style: TextStyle(
                                 fontSize: 16.0, color: Theme.of(context).primaryColor)),
-                        SizedBox(height: 10.0),
+                        const SizedBox(height: 10.0),
                         Text(
                           schedule.station.name, // e.g., 'ABK'
-                          style: TextStyle(fontSize: 16.0),
+                          style: const TextStyle(fontSize: 16.0),
                         ),
-                        SizedBox(height: 15.0),
+                        const SizedBox(height: 15.0),
                         Text(
                           "${schedule.distance.toStringAsFixed(1)} km",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:swyft_rails/views/startpage.dart';
-import 'package:swyft_rails/views/navpages/home_screen.dart';
 
 class Create extends StatefulWidget {
   const Create({ Key? key }) : super(key: key);
