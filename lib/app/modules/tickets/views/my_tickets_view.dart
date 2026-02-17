@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../config/theme/app_colors.dart';
-import '../controllers/tickets_controller.dart';
+import '../../tickets/controllers/tickets_controller.dart';
+import 'ticket_details_view.dart';
 
 class MyTicketsView extends GetView<TicketsController> {
   const MyTicketsView({super.key});
@@ -45,18 +46,43 @@ class MyTicketsView extends GetView<TicketsController> {
                   padding: const EdgeInsets.all(20),
                   itemCount: controller.tickets.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Ticket #${index + 1}',
-                              style: Theme.of(context).textTheme.titleMedium,
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => TicketDetailsView(
+                              ticket: controller.tickets[index] as Map<String, dynamic>,
                             ),
-                          ],
+                          ),
+                        );
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Ticket #${index + 1}',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    controller.tickets[index]['scheduleName'] ?? 'Train Journey',
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  Text(
+                                    controller.tickets[index]['date']?.toString().split('T')[0] ?? '',
+                                    style: Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );

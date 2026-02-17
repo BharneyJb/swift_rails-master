@@ -14,10 +14,10 @@ class MainView extends GetView<MainController> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      const HomeView(),
-      const SearchView(),
-      const MyTicketsView(),
-      const ProfileView(),
+      const NavigatorPage(child: HomeView()),
+      const NavigatorPage(child: SearchView()),
+      const NavigatorPage(child: MyTicketsView()),
+      const NavigatorPage(child: ProfileView()),
     ];
 
     return Scaffold(
@@ -54,6 +54,23 @@ class MainView extends GetView<MainController> {
           ),
         ],
       )),
+    );
+  }
+}
+
+class NavigatorPage extends StatelessWidget {
+  final Widget child;
+  const NavigatorPage({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (_) => child,
+          settings: settings,
+        );
+      },
     );
   }
 }
