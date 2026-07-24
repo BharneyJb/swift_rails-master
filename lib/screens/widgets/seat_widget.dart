@@ -55,7 +55,6 @@ class SeatWidget extends StatelessWidget {
       case SeatStatus.occupied:
         return Colors.grey.shade400;
       case SeatStatus.available:
-      default:
         return Colors.black54;
     }
   }

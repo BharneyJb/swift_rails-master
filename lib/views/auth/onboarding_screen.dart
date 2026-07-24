@@ -62,12 +62,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 90.0),
-                    child: Image.asset(
-                      onboardInfo[index]['image'],
-                      fit: BoxFit.contain,
-                      width: double.maxFinite,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 40.0),
+                      child: Image.asset(
+                        onboardInfo[index]['image'],
+                        fit: BoxFit.cover,
+                        width: double.maxFinite,
+                      ),
                     ),
                   ),
                   Padding(

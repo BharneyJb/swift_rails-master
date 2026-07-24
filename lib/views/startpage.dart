@@ -14,42 +14,56 @@ class Startpage extends StatefulWidget {
 }
 
 class _StartpageState extends State<Startpage> {
-  int currentIndex = 0;
+  static const Color _purple = Color(0xff4001a8);
 
-  List screenList = [
+  int _currentIndex = 0;
+
+  final List<Widget> _screens = [
     HomeScreen(),
-   SearchScreen(),
+    SearchScreen(),
     ScheduleScreen(),
-    SettingsScreen()
+    SettingsScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screenList[currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Color(0xff4001a8),
-        currentIndex: currentIndex,
-        onTap: (value) {
-          setState(() {
-            currentIndex = value;
-          });
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (value) {
+          setState(() => _currentIndex = value);
         },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled, size: 40.0, color: Colors.grey),
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.black12,
+        elevation: 8,
+        // The colour of the pill around the active icon
+        indicatorColor: _purple,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        animationDuration: const Duration(milliseconds: 350),
+        destinations: [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined, color: Colors.grey.shade500, size: 26),
+            selectedIcon: Icon(Icons.home_rounded, color: Colors.white, size: 26),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search, size: 40.0, color: Colors.grey),
+          NavigationDestination(
+            icon: Icon(Icons.search_outlined, color: Colors.grey.shade500, size: 26),
+            selectedIcon: Icon(Icons.search_rounded, color: Colors.white, size: 26),
             label: 'Search',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.schedule, size: 40.0, color: Colors.grey),
+          NavigationDestination(
+            icon: Icon(Icons.event_note_outlined, color: Colors.grey.shade500, size: 26),
+            selectedIcon: Icon(Icons.event_note_rounded, color: Colors.white, size: 26),
             label: 'Schedule',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined, size: 40.0, color: Colors.grey),
+          NavigationDestination(
+            icon: Icon(Icons.manage_accounts_outlined, color: Colors.grey.shade500, size: 26),
+            selectedIcon: Icon(Icons.manage_accounts_rounded, color: Colors.white, size: 26),
             label: 'Settings',
           ),
         ],

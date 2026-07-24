@@ -19,7 +19,7 @@ class TicketCard extends StatelessWidget {
 
   const TicketCard({
     super.key,
-    this.backgroundColor = const Color(0xFFE0E0E0), // Default grey.shade200
+    this.backgroundColor = const Color(0xFFE0E0E0),
     this.borderRadius = 12.0,
     this.padding = const EdgeInsets.all(18.0),
     required this.departureLabel,
@@ -29,7 +29,7 @@ class TicketCard extends StatelessWidget {
     required this.trainNumber,
     required this.price,
     required this.iconAssetPath,
-    this.iconBackgroundColor = const Color(0xFFEEEEEE), // Default grey.shade300
+    this.iconBackgroundColor = const Color(0xFFEEEEEE),
     this.labelStyle,
     this.codeStyle,
     this.trainNumberStyle,
@@ -79,7 +79,7 @@ class TicketCard extends StatelessWidget {
                           Text(
                             'Train No: $trainNumber',
                             style: trainNumberStyle ??
-                                const TextStyle(
+                                TextStyle(
                                   fontSize: 16.0,
                                   color: Colors.grey,
                                 ),

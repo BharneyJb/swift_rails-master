@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:swyft_rails/models/schedule.dart';
 import 'package:swyft_rails/screens/passenger_details_screen.dart';
 
@@ -7,10 +6,6 @@ class ScheduleCard extends StatelessWidget {
   final Schedule schedule;
 
   const ScheduleCard({Key? key, required this.schedule}) : super(key: key);
-
-  String formatDateTime(DateTime dt) {
-    return DateFormat('hh:mm a').format(dt);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,29 +37,33 @@ class ScheduleCard extends StatelessWidget {
                         Text('Departure Time',
                             style: TextStyle(
                                 fontSize: 16.0, color: Theme.of(context).primaryColor)),
-                        const SizedBox(height: 10.0),
+                        SizedBox(height: 10.0),
                         Text(
-                          schedule.departureStation, // e.g., 'LOS'
-                          style: const TextStyle(fontSize: 15.0),
+                          schedule.departureStation,
+                          style: TextStyle(fontSize: 15.0),
                         ),
-                        const SizedBox(height: 10.0),
+                        SizedBox(height: 10.0),
                         Row(
                           children: [
                             CircleAvatar(
                               backgroundColor: Colors.grey.shade300,
                               child: Image.asset('assets/icon/icon.png'),
                             ),
-                            const SizedBox(width: 5.0),
-                            Text('Train: ${schedule.name}',
-                                style: const TextStyle(
-                                    fontSize: 14.0, color: Colors.grey)),
+                            SizedBox(width: 5.0),
+                            Expanded(
+                              child: Text(
+                                'Train: ${schedule.name}',
+                                style: TextStyle(fontSize: 14.0, color: Colors.grey),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ),
 
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
 
                   // Right Side: Arrival
                   Expanded(
@@ -75,15 +74,15 @@ class ScheduleCard extends StatelessWidget {
                         Text('Arrival Time',
                             style: TextStyle(
                                 fontSize: 16.0, color: Theme.of(context).primaryColor)),
-                        const SizedBox(height: 10.0),
+                        SizedBox(height: 10.0),
                         Text(
-                          schedule.station.name, // e.g., 'ABK'
-                          style: const TextStyle(fontSize: 16.0),
+                          schedule.station.name,
+                          style: TextStyle(fontSize: 16.0),
                         ),
-                        const SizedBox(height: 15.0),
+                        SizedBox(height: 15.0),
                         Text(
                           "${schedule.distance.toStringAsFixed(1)} km",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -96,10 +95,4 @@ class ScheduleCard extends StatelessWidget {
       ),
     );
   }
-
-  String _formatDateTime(DateTime dateTime) {
-    return "${dateTime.year}-${_pad(dateTime.month)}-${_pad(dateTime.day)} ${_pad(dateTime.hour)}:${_pad(dateTime.minute)}";
-  }
-
-  String _pad(int value) => value.toString().padLeft(2, '0');
 }

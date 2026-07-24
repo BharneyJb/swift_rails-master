@@ -44,21 +44,6 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
     _calculatePrice();
   }
 
-  // Custom Currency Formatter (no changes here)
-  String _formatCurrency(double value) {
-    String formatted = value.toStringAsFixed(2);
-    final parts = formatted.split('.');
-    String integerPart = parts[0].replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]},',
-    );
-    String decimalPart = parts[1];
-    return '₦$integerPart.$decimalPart';
-  }
-
-  // All other business logic and build methods remain exactly the same.
-  // ... (the rest of the code is unchanged)
-
   void _calculatePrice() {
     final multiplier = _classMultipliers[_selectedClass] ?? 1.0;
     setState(() {
@@ -221,8 +206,8 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
           children: [
             Container(
               padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: Color(0xFFFDECDD),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFDECDD),
                 shape: BoxShape.circle,
               ),
               child: const Icon(Icons.train_outlined, color: Color(0xFFF2994A)),
@@ -251,7 +236,7 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
     required ValueChanged<T?> onChanged,
   }) {
     return DropdownButtonFormField<T>(
-      initialValue: value,
+      value: value,
       items: items,
       onChanged: onChanged,
       icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).primaryColor),
