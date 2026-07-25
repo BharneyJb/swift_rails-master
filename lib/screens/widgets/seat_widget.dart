@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Enum to manage the state of the seat
 enum SeatStatus { available, selected, occupied }
 
 class SeatWidget extends StatelessWidget {
@@ -14,66 +13,133 @@ class SeatWidget extends StatelessWidget {
     required this.seatNumber,
     required this.status,
     required this.onTap,
-    this.size = 48.0,
+    this.size = 52.0,
   });
+
+  static const Color _purple = Color(0xff4001a8);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: status == SeatStatus.occupied ? null : onTap,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
         width: size,
-        height: size,
-        margin: const EdgeInsets.all(6.0),
+        height: size + 4,
+        margin: const EdgeInsets.all(4.0),
         decoration: BoxDecoration(
-          color: _getBackgroundColor(),
-          border: Border.all(color: _getBorderColor(), width: 1.5),
+          color: _backgroundColor,
+          border: Border.all(color: _borderColor, width: 1.8),
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
-            bottomLeft: Radius.circular(4),
-            bottomRight: Radius.circular(4),
+            topLeft: Radius.circular(14),
+            topRight: Radius.circular(14),
+            bottomLeft: Radius.circular(6),
+            bottomRight: Radius.circular(6),
           ),
+          boxShadow: _boxShadow,
         ),
-        child: Center(
-          child: Text(
-            seatNumber,
-            style: TextStyle(
-              color: _getTextColor(),
-              fontWeight: FontWeight.bold,
+        child: Column(
+          children: [
+            // Headrest strip
+            Container(
+              height: 7,
+              decoration: BoxDecoration(
+                color: _headrestColor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(13),
+                  topRight: Radius.circular(13),
+                ),
+              ),
             ),
-          ),
+            // Seat body with number
+            Expanded(
+              child: Center(
+                child: Text(
+                  seatNumber,
+                  style: TextStyle(
+                    color: _textColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 11,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Color _getBorderColor() {
+  Color get _backgroundColor {
     switch (status) {
       case SeatStatus.selected:
-        return Colors.deepOrange;
+        return _purple;
+      case SeatStatus.occupied:
+        return Colors.grey.shade300;
+      case SeatStatus.available:
+        return Colors.white;
+    }
+  }
+
+  Color get _borderColor {
+    switch (status) {
+      case SeatStatus.selected:
+        return _purple;
       case SeatStatus.occupied:
         return Colors.grey.shade400;
       case SeatStatus.available:
-        return Colors.black54;
+        return _purple;
     }
   }
 
-  Color? _getBackgroundColor() {
+  Color get _headrestColor {
     switch (status) {
+      case SeatStatus.selected:
+        return const Color(0xff5a1ec8);
       case SeatStatus.occupied:
-        return Colors.grey.shade200;
-      default:
-        return Colors.transparent;
+        return Colors.grey.shade400;
+      case SeatStatus.available:
+        return const Color(0xffe8d5ff);
     }
   }
 
-  Color _getTextColor() {
+  Color get _textColor {
     switch (status) {
+      case SeatStatus.selected:
+        return Colors.white;
       case SeatStatus.occupied:
         return Colors.grey.shade500;
-      default:
-        return Colors.black87;
+      case SeatStatus.available:
+        return _purple;
+    }
+  }
+
+  List<BoxShadow> get _boxShadow {
+    switch (status) {
+      case SeatStatus.selected:
+        return [
+          BoxShadow(
+            color: _purple.withOpacity(0.45),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+          BoxShadow(
+            color: Colors.orange.withOpacity(0.25),
+            blurRadius: 12,
+            spreadRadius: 1,
+          ),
+        ];
+      case SeatStatus.available:
+        return [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ];
+      case SeatStatus.occupied:
+        return [];
     }
   }
 }

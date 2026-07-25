@@ -1,20 +1,29 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:swyft_rails/views/navpages/payment_status.dart';
+import 'package:swyft_rails/views/utils/form_validators.dart';
 import 'package:swyft_rails/views/utils/input_field.dart';
 
 class CardPayment extends StatefulWidget {
   const CardPayment({Key? key}) : super(key: key);
 
   @override
-  _CardPaymentState createState() => _CardPaymentState();
+  State<CardPayment> createState() => _CardPaymentState();
 }
 
 class _CardPaymentState extends State<CardPayment> {
-  TextEditingController cardController = TextEditingController();
-  TextEditingController cvvController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController cardController = TextEditingController();
+  final TextEditingController cvvController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
+
+  @override
+  void dispose() {
+    cardController.dispose();
+    cvvController.dispose();
+    dateController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +31,7 @@ class _CardPaymentState extends State<CardPayment> {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        title: Text(
+        title: const Text(
           "Ticket Details",
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18.0),
         ),
@@ -30,62 +39,69 @@ class _CardPaymentState extends State<CardPayment> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 15.0,
-              ),
-              InputField(
-                controller: cardController,
-                hintText: "Card Number",
-                labelText: "Card Number",
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: InputField(
-                      controller: cvvController,
-                      hintText: "CVV",
-                      labelText: "CVV",
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const SizedBox(height: 15.0),
+                InputField(
+                  controller: cardController,
+                  hintText: "1234 5678 9012 3456",
+                  labelText: "Card Number",
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FormValidators.cardNumberFormatter],
+                  validator: FormValidators.cardNumber,
+                ),
+                const SizedBox(height: 8.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: InputField(
+                        controller: cvvController,
+                        hintText: "CVV",
+                        labelText: "CVV",
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FormValidators.cvvFormatter],
+                        validator: FormValidators.cvv,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 12.0,
-                  ),
-                  Expanded(
-                    child: InputField(
-                      controller: dateController,
-                      hintText: "Exp",
-                      labelText: "Exp",
+                    const SizedBox(width: 12.0),
+                    Expanded(
+                      child: InputField(
+                        controller: dateController,
+                        hintText: "MM/YY",
+                        labelText: "Expiry",
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FormValidators.expiryFormatter],
+                        validator: FormValidators.expiry,
+                      ),
                     ),
+                  ],
+                ),
+                const SizedBox(height: 30.0),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.maxFinite, 70),
+                    backgroundColor: const Color(0xff4001a8),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50)),
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 30.0,
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.maxFinite, 70),
-                  backgroundColor: Color(0xff4001a8),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const PaymentStatus()),
+                      );
+                    }
+                  },
+                  child: const Text(
+                    'Pay #14,685',
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
                 ),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return PaymentStatus();
-                  }),
-                ),
-                child: Text(
-                  'Pay #14,685',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
