@@ -46,7 +46,6 @@ app.*.map.json
 /android/app/release
 
 
-CREATE_REMAINING_MODULES.md
-IMPLEMENTATION_SUMMARY.md
-QUICK_START_GUIDE.md
-README_IMPLEMENTATION.md
+# Exclude all markdown files except README.md
+*.md
+!README.md
