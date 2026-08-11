@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
+// Copyright 2024 Swift Rails. All rights reserved.
 
 import 'package:flutter/material.dart';
 
 class PaymentStatus extends StatefulWidget {
-  const PaymentStatus({ Key? key }) : super(key: key);
+  const PaymentStatus({ super.key });
 
   @override
   State<PaymentStatus> createState() => _PaymentStatusState();
@@ -18,8 +18,8 @@ class _PaymentStatusState extends State<PaymentStatus> {
           children: [
             InkWell(
                   onTap: () => Navigator.pop(context),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Row(
                       children: [
                         Icon(Icons.arrow_back),
@@ -35,7 +35,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
                     ),
                   ),
                 ),
-              SizedBox(
+              const SizedBox(
                 height: 50.0,
               ),
                Column(

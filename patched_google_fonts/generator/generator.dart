@@ -10,9 +10,7 @@ import 'package:mustache_template/mustache.dart';
 
 import 'fonts.pb.dart';
 
-const _generatedMainFilePath = 'lib/google_fonts.dart';
-_generatedPartFilePath(String part) =>
-    'lib/src/google_fonts_parts/part_$part.dart';
+const _generatedFilePath = 'lib/google_fonts.dart';
 const _familiesSupportedPath = 'generator/families_supported';
 const _familiesDiffPath = 'generator/families_diff';
 
@@ -40,12 +38,12 @@ Future<void> main() async {
   await familiesDelta.updateChangelogAndPubspec();
   print(_success);
 
-  print('\nGenerating $_generatedMainFilePath and part files...');
-  _generateDartCode(fontDirectory);
+  print('\nGenerating $_generatedFilePath...');
+  await _writeDartFile(_generateDartCode(fontDirectory));
   print(_success);
 
-  print('\nFormatting $_generatedMainFilePath and part files...');
-  await Process.run('dart', ['format', 'lib']);
+  print('\nFormatting $_generatedFilePath...');
+  await Process.run('flutter', ['format', _generatedFilePath]);
   print(_success);
 }
 
@@ -60,7 +58,7 @@ const _success = 'Success!';
 /// connection gets lost while downloading the directories, we just crash. But
 /// that's okay for now, because the generator is only executed in trusted
 /// environments by individual developers.
-Future<Uri> _getProtoUrl({int initialVersion = 7}) async {
+Future<Uri> _getProtoUrl({int initialVersion = 1}) async {
   var directoryVersion = initialVersion;
 
   Uri url(int directoryVersion) {
@@ -177,7 +175,7 @@ class _FamiliesDelta {
     return diff;
   }
 
-  // Use cider to update CHANGELOG.md and pubspec.yaml.
+  // Use cider to update CHANGELOG.md
   Future<void> updateChangelogAndPubspec() async {
     for (final family in removed) {
       await Process.run('cider', ['log', 'removed', '`$family`']);
@@ -185,19 +183,10 @@ class _FamiliesDelta {
     for (final family in added) {
       await Process.run('cider', ['log', 'added', '`$family`']);
     }
-
-    await Process.run(
-      'cider',
-      ['bump', removed.isNotEmpty ? 'breaking' : 'minor'],
-    );
-    await Process.run(
-      'cider',
-      ['release'],
-    );
   }
 }
 
-void _generateDartCode(Directory fontDirectory) {
+String _generateDartCode(Directory fontDirectory) {
   final methods = <Map<String, dynamic>>[];
 
   for (final item in fontDirectory.family) {
@@ -226,7 +215,6 @@ void _generateDartCode(Directory fontDirectory) {
 
     methods.add(<String, dynamic>{
       'methodName': methodName,
-      'part': methodName[0].toUpperCase(),
       'fontFamily': familyNoSpaces,
       'fontFamilyDisplay': family,
       'docsUrl': 'https://fonts.google.com/specimen/$familyWithPlusSigns',
@@ -246,53 +234,15 @@ void _generateDartCode(Directory fontDirectory) {
     });
   }
 
-  // Part font methods by first letter.
-  Map<String, List<Map<String, dynamic>>> methodsByLetter = {};
-  final allParts = <Map<String, dynamic>>[];
-
-  for (var map in methods) {
-    String methodName = map['methodName'];
-    String firstLetter = methodName[0];
-    if (!methodsByLetter.containsKey(firstLetter)) {
-      allParts.add({
-        'partFilePath': _generatedPartFilePath(firstLetter).replaceFirst(
-          'lib/',
-          '',
-        )
-      });
-      methodsByLetter[firstLetter] = [map];
-    } else {
-      methodsByLetter[firstLetter]!.add(map);
-    }
-  }
-
-  // Generate part files.
-  final partTemplate = Template(
-    File('generator/google_fonts_part.tmpl').readAsStringSync(),
-    htmlEscapeValues: false,
-  );
-  methodsByLetter.forEach((letter, methods) async {
-    final renderedTemplate = partTemplate.renderString({
-      'part': letter.toUpperCase(),
-      'method': methods,
-    });
-    _writeDartFile(_generatedPartFilePath(letter), renderedTemplate);
-  });
-
-  // Generate main file.
   final template = Template(
     File('generator/google_fonts.tmpl').readAsStringSync(),
     htmlEscapeValues: false,
   );
-  final renderedTemplate = template.renderString({
-    'allParts': allParts,
-    'method': methods,
-  });
-  _writeDartFile(_generatedMainFilePath, renderedTemplate);
+  return template.renderString({'method': methods});
 }
 
-void _writeDartFile(String path, String content) {
-  File(path).writeAsStringSync(content);
+Future<void> _writeDartFile(String content) async {
+  await File(_generatedFilePath).writeAsString(content);
 }
 
 String _familyToMethodName(String family) {

@@ -374,7 +374,7 @@ packages:
       path: patched_google_fonts
       relative: true
     source: path
-    version: "6.0.0"
+    version: "4.0.4"
   hooks:
     dependency: transitive
     description:
@@ -384,7 +384,7 @@ packages:
     source: hosted
     version: "2.0.2"
   http:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: http
       sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"

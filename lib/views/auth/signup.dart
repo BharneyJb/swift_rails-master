@@ -315,12 +315,13 @@ class _SignupState extends State<Signup> {
                       }
 
                       // Store the user's first name
+                      final navigator = Navigator.of(context);
+                      final email = emailController.text.trim();
                       await UserService.storeUserName(firstNameController.text.trim());
                       if (!mounted) return;
-                      Navigator.push(
-                        context,
+                      navigator.push(
                         MaterialPageRoute(builder: (context) {
-                          return Verification(email: emailController.text.trim());
+                          return Verification(email: email);
                         }),
                       );
                     }

@@ -76,7 +76,7 @@ class FileSpec extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static FileSpec create() => FileSpec._();
   FileSpec createEmptyInstance() => create();
-  static $pb.PbList<FileSpec> createRepeated() => $pb.PbList<FileSpec>();
+  static $core.List<FileSpec> createRepeated() => <FileSpec>[];
   @$core.pragma('dart2js:noInline')
   static FileSpec getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FileSpec>(create);
@@ -177,7 +177,7 @@ class IntRange extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static IntRange create() => IntRange._();
   IntRange createEmptyInstance() => create();
-  static $pb.PbList<IntRange> createRepeated() => $pb.PbList<IntRange>();
+  static $core.List<IntRange> createRepeated() => <IntRange>[];
   @$core.pragma('dart2js:noInline')
   static IntRange getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<IntRange>(create);
@@ -266,7 +266,7 @@ class FloatRange extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static FloatRange create() => FloatRange._();
   FloatRange createEmptyInstance() => create();
-  static $pb.PbList<FloatRange> createRepeated() => $pb.PbList<FloatRange>();
+  static $core.List<FloatRange> createRepeated() => <FloatRange>[];
   @$core.pragma('dart2js:noInline')
   static FloatRange getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FloatRange>(create);
@@ -385,7 +385,7 @@ class Font extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static Font create() => Font._();
   Font createEmptyInstance() => create();
-  static $pb.PbList<Font> createRepeated() => $pb.PbList<Font>();
+  static $core.List<Font> createRepeated() => <Font>[];
   @$core.pragma('dart2js:noInline')
   static Font getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Font>(create);
@@ -528,7 +528,7 @@ class FontFamily extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static FontFamily create() => FontFamily._();
   FontFamily createEmptyInstance() => create();
-  static $pb.PbList<FontFamily> createRepeated() => $pb.PbList<FontFamily>();
+  static $core.List<FontFamily> createRepeated() => <FontFamily>[];
   @$core.pragma('dart2js:noInline')
   static FontFamily getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FontFamily>(create);
@@ -659,7 +659,7 @@ class Directory extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static Directory create() => Directory._();
   Directory createEmptyInstance() => create();
-  static $pb.PbList<Directory> createRepeated() => $pb.PbList<Directory>();
+  static $core.List<Directory> createRepeated() => <Directory>[];
   @$core.pragma('dart2js:noInline')
   static Directory getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Directory>(create);

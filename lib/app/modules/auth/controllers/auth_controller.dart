@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/services/api_service.dart';
+// import '../../../core/services/api_service.dart';
 import '../../../core/services/storage_service.dart';
-import '../../../core/utils/api_endpoints.dart';
+// import '../../../core/utils/api_endpoints.dart';
 import '../../../routes/app_routes.dart';
 
 class AuthController extends GetxController {
-  final ApiService _apiService = Get.find();
+  // final ApiService _apiService = Get.find();
   final StorageService _storageService = Get.find();
 
   // Login Form
@@ -74,34 +74,41 @@ class AuthController extends GetxController {
     try {
       isLoginLoading.value = true;
 
-      debugPrint(
-          'LOGIN: Attempting login with email: ${loginEmailController.text.trim()}');
-      debugPrint(
-          'LOGIN: API Endpoint: ${ApiEndpoints.baseUrl}${ApiEndpoints.login}');
-
-      final response = await _apiService.post(
-        ApiEndpoints.login,
-        data: {
-          'email': loginEmailController.text.trim(),
-          'password': loginPasswordController.text,
-        },
+      // ── BACKEND COMMENTED OUT ─────────────────────────────────────────────
+      // debugPrint(
+      //     'LOGIN: Attempting login with email: ${loginEmailController.text.trim()}');
+      // debugPrint(
+      //     'LOGIN: API Endpoint: ${ApiEndpoints.baseUrl}${ApiEndpoints.login}');
+      // final response = await _apiService.post(
+      //   ApiEndpoints.login,
+      //   data: {
+      //     'email': loginEmailController.text.trim(),
+      //     'password': loginPasswordController.text,
+      //   },
+      // );
+      // if (response.statusCode == 200) {
+      //   final data = response.data;
+      //   await _storageService.saveToken(data['token']);
+      //   await _storageService.saveUserData(data['user']);
+      //   await _storageService.setLoggedIn(true);
+      //   Get.offAllNamed(AppRoutes.MAIN);
+      //   Get.snackbar('Success', 'Login successful!',
+      //       snackPosition: SnackPosition.BOTTOM,
+      //       backgroundColor: Colors.green,
+      //       colorText: Colors.white);
+      // }
+      // ── MOCK SUCCESS ──────────────────────────────────────────────────────
+      await _storageService.saveToken('mock_token_dev');
+      await _storageService.setLoggedIn(true);
+      Get.offAllNamed(AppRoutes.MAIN);
+      Get.snackbar(
+        'Dev Mode',
+        'Logged in (backend bypassed)',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.orange,
+        colorText: Colors.white,
       );
-
-      if (response.statusCode == 200) {
-        final data = response.data;
-        await _storageService.saveToken(data['token']);
-        await _storageService.saveUserData(data['user']);
-        await _storageService.setLoggedIn(true);
-
-        Get.offAllNamed(AppRoutes.MAIN);
-        Get.snackbar(
-          'Success',
-          'Login successful!',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-      }
+      // ─────────────────────────────────────────────────────────────────────
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -122,26 +129,33 @@ class AuthController extends GetxController {
     try {
       isRegisterLoading.value = true;
 
-      final response = await _apiService.post(
-        ApiEndpoints.register,
-        data: {
-          'name': registerNameController.text.trim(),
-          'email': registerEmailController.text.trim(),
-          'phone': registerPhoneController.text.trim(),
-          'password': registerPasswordController.text,
-        },
+      // ── BACKEND COMMENTED OUT ─────────────────────────────────────────────
+      // final response = await _apiService.post(
+      //   ApiEndpoints.register,
+      //   data: {
+      //     'name': registerNameController.text.trim(),
+      //     'email': registerEmailController.text.trim(),
+      //     'phone': registerPhoneController.text.trim(),
+      //     'password': registerPasswordController.text,
+      //   },
+      // );
+      // if (response.statusCode == 201 || response.statusCode == 200) {
+      //   Get.snackbar('Success', 'Registration successful! Please login.',
+      //       snackPosition: SnackPosition.BOTTOM,
+      //       backgroundColor: Colors.green,
+      //       colorText: Colors.white);
+      //   Get.offNamed(AppRoutes.LOGIN);
+      // }
+      // ── MOCK SUCCESS ──────────────────────────────────────────────────────
+      Get.snackbar(
+        'Dev Mode',
+        'Registered (backend bypassed)',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.orange,
+        colorText: Colors.white,
       );
-
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        Get.snackbar(
-          'Success',
-          'Registration successful! Please login.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-        Get.offNamed(AppRoutes.LOGIN);
-      }
+      Get.offNamed(AppRoutes.LOGIN);
+      // ─────────────────────────────────────────────────────────────────────
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -162,24 +176,30 @@ class AuthController extends GetxController {
     try {
       isForgotPasswordLoading.value = true;
 
-      final response = await _apiService.post(
-        ApiEndpoints.forgotPassword,
-        data: {
-          'email': forgotPasswordEmailController.text.trim(),
-        },
+      // ── BACKEND COMMENTED OUT ─────────────────────────────────────────────
+      // final response = await _apiService.post(
+      //   ApiEndpoints.forgotPassword,
+      //   data: {'email': forgotPasswordEmailController.text.trim()},
+      // );
+      // if (response.statusCode == 200) {
+      //   verificationEmail.value = forgotPasswordEmailController.text.trim();
+      //   Get.toNamed(AppRoutes.VERIFY_OTP);
+      //   Get.snackbar('Success', 'OTP sent to your email',
+      //       snackPosition: SnackPosition.BOTTOM,
+      //       backgroundColor: Colors.green,
+      //       colorText: Colors.white);
+      // }
+      // ── MOCK SUCCESS ──────────────────────────────────────────────────────
+      verificationEmail.value = forgotPasswordEmailController.text.trim();
+      Get.toNamed(AppRoutes.VERIFY_OTP);
+      Get.snackbar(
+        'Dev Mode',
+        'OTP bypassed — any 6-digit code accepted',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.orange,
+        colorText: Colors.white,
       );
-
-      if (response.statusCode == 200) {
-        verificationEmail.value = forgotPasswordEmailController.text.trim();
-        Get.toNamed(AppRoutes.VERIFY_OTP);
-        Get.snackbar(
-          'Success',
-          'OTP sent to your email',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-      }
+      // ─────────────────────────────────────────────────────────────────────
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -209,24 +229,31 @@ class AuthController extends GetxController {
     try {
       isOtpLoading.value = true;
 
-      final response = await _apiService.post(
-        ApiEndpoints.verifyOtp,
-        data: {
-          'email': verificationEmail.value,
-          'otp': otpController.text,
-        },
+      // ── BACKEND COMMENTED OUT ─────────────────────────────────────────────
+      // final response = await _apiService.post(
+      //   ApiEndpoints.verifyOtp,
+      //   data: {
+      //     'email': verificationEmail.value,
+      //     'otp': otpController.text,
+      //   },
+      // );
+      // if (response.statusCode == 200) {
+      //   Get.toNamed(AppRoutes.RESET_PASSWORD);
+      //   Get.snackbar('Success', 'OTP verified successfully',
+      //       snackPosition: SnackPosition.BOTTOM,
+      //       backgroundColor: Colors.green,
+      //       colorText: Colors.white);
+      // }
+      // ── MOCK SUCCESS ──────────────────────────────────────────────────────
+      Get.toNamed(AppRoutes.RESET_PASSWORD);
+      Get.snackbar(
+        'Dev Mode',
+        'OTP verified (backend bypassed)',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.orange,
+        colorText: Colors.white,
       );
-
-      if (response.statusCode == 200) {
-        Get.toNamed(AppRoutes.RESET_PASSWORD);
-        Get.snackbar(
-          'Success',
-          'OTP verified successfully',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-      }
+      // ─────────────────────────────────────────────────────────────────────
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -247,25 +274,32 @@ class AuthController extends GetxController {
     try {
       isResetPasswordLoading.value = true;
 
-      final response = await _apiService.post(
-        ApiEndpoints.resetPassword,
-        data: {
-          'email': verificationEmail.value,
-          'password': resetPasswordController.text,
-          'otp': otpController.text,
-        },
+      // ── BACKEND COMMENTED OUT ─────────────────────────────────────────────
+      // final response = await _apiService.post(
+      //   ApiEndpoints.resetPassword,
+      //   data: {
+      //     'email': verificationEmail.value,
+      //     'password': resetPasswordController.text,
+      //     'otp': otpController.text,
+      //   },
+      // );
+      // if (response.statusCode == 200) {
+      //   Get.offAllNamed(AppRoutes.LOGIN);
+      //   Get.snackbar('Success', 'Password reset successful! Please login.',
+      //       snackPosition: SnackPosition.BOTTOM,
+      //       backgroundColor: Colors.green,
+      //       colorText: Colors.white);
+      // }
+      // ── MOCK SUCCESS ──────────────────────────────────────────────────────
+      Get.offAllNamed(AppRoutes.LOGIN);
+      Get.snackbar(
+        'Dev Mode',
+        'Password reset (backend bypassed)',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.orange,
+        colorText: Colors.white,
       );
-
-      if (response.statusCode == 200) {
-        Get.offAllNamed(AppRoutes.LOGIN);
-        Get.snackbar(
-          'Success',
-          'Password reset successful! Please login.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-      }
+      // ─────────────────────────────────────────────────────────────────────
     } catch (e) {
       Get.snackbar(
         'Error',

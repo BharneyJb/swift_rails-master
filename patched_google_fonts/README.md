@@ -14,19 +14,19 @@ A Flutter package to use fonts from [fonts.google.com](https://fonts.google.com/
 - Font file caching, on device file system
 - Font bundling in assets. Matching font files found in assets are prioritized over HTTP fetching. Useful for offline-first apps.
 
-## Usage
+## Getting Started
 
 For example, say you want to use the [Lato](https://fonts.google.com/specimen/Lato) font from Google Fonts in your Flutter app.
 
-1. Add the `google_fonts` package to your [pubspec dependencies](https://pub.dev/packages/google_fonts/install).
+First, add the `google_fonts` package to your [pubspec dependencies](https://pub.dev/packages/google_fonts/install).
 
-1. Import `GoogleFonts`.
-    ```dart
-    import 'package:google_fonts/google_fonts.dart';
-    ```
+To import `GoogleFonts`:
 
-### Text styles
-To use `GoogleFonts` with the default `TextStyle`:
+```dart
+import 'package:google_fonts/google_fonts.dart';
+```
+
+To use `GoogleFonts` with the default TextStyle:
 
 ```dart
 Text(
@@ -70,15 +70,13 @@ To override the `fontSize`, `fontWeight`, or `fontStyle`:
 Text(
   'This is Google Fonts',
   style: GoogleFonts.lato(
-    textStyle: Theme.of(context).textTheme.displayLarge,
+    textStyle: Theme.of(context).textTheme.headline4,
     fontSize: 48,
     fontWeight: FontWeight.w700,
     fontStyle: FontStyle.italic,
   ),
 ),
 ```
-
-### Text themes
 
 You can also use `GoogleFonts.latoTextTheme()` to make or modify an entire text theme to use the "Lato" font.
 
@@ -106,18 +104,13 @@ final textTheme = Theme.of(context).textTheme;
 MaterialApp(
   theme: ThemeData(
     textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(
-      bodyMedium: GoogleFonts.oswald(textStyle: textTheme.bodyMedium),
+      bodyText2: GoogleFonts.oswald(textStyle: textTheme.bodyText2),
     ),
   ),
 );
 ```
 
-### Visual font swapping
-To avoid visual font swaps that occur when a font is loading, use [FutureBuilder](https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html) and [GoogleFonts.pendingFonts()](https://pub.dev/documentation/google_fonts/latest/google_fonts/GoogleFonts/pendingFonts.html).
-
-See the [example app](https://github.com/material-foundation/flutter-packages/blob/main/packages/google_fonts/example/lib/main.dart).
-
-### HTTP fetching
+## HTTP fetching
 
 For HTTP fetching to work, certain platforms require additional steps when running the app in debug and/or release mode. For example, macOS requires the following be present in the relevant .entitlements file:
 
@@ -128,7 +121,7 @@ For HTTP fetching to work, certain platforms require additional steps when runni
 
 Learn more at https://docs.flutter.dev/development/data-and-backend/networking#platform-notes.
 
-## Bundling fonts when releasing
+## Font bundling in assets
 
 The `google_fonts` package will automatically use matching font files in your `pubspec.yaml`'s
 `assets` (rather than fetching them at runtime via HTTP). Once you've settled on the fonts

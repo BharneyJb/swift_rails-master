@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../config/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
+import '../../../../views/utils/form_validators.dart';
 
 class LoginView extends GetView<AuthController> {
   const LoginView({super.key});
@@ -51,15 +52,7 @@ class LoginView extends GetView<AuthController> {
                     hintText: 'Enter your email',
                     prefixIcon: Icon(Iconsax.sms),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    if (!GetUtils.isEmail(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
+                  validator: FormValidators.email,
                 ),
                 const SizedBox(height: 16),
                 

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../config/theme/app_colors.dart';
 import '../controllers/auth_controller.dart';
+import '../../../../views/utils/form_validators.dart';
 
 class RegisterView extends GetView<AuthController> {
   const RegisterView({super.key});
@@ -61,15 +62,7 @@ class RegisterView extends GetView<AuthController> {
                     hintText: 'Enter your email',
                     prefixIcon: Icon(Iconsax.sms),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    if (!GetUtils.isEmail(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
+                  validator: FormValidators.email,
                 ),
                 const SizedBox(height: 16),
                 
@@ -82,12 +75,7 @@ class RegisterView extends GetView<AuthController> {
                     hintText: 'Enter your phone number',
                     prefixIcon: Icon(Iconsax.call),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your phone number';
-                    }
-                    return null;
-                  },
+                  validator: FormValidators.phone,
                 ),
                 const SizedBox(height: 16),
                 

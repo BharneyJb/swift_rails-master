@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../config/theme/app_colors.dart';
 import '../controllers/profile_controller.dart';
+import '../../../../views/utils/form_validators.dart';
 
 class EditProfileView extends GetView<ProfileController> {
   const EditProfileView({super.key});
@@ -102,15 +103,7 @@ class EditProfileView extends GetView<ProfileController> {
                   ),
                 ),
                 keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  if (!GetUtils.isEmail(value)) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
+                validator: FormValidators.email,
               ),
               const SizedBox(height: 16),
 
@@ -125,12 +118,7 @@ class EditProfileView extends GetView<ProfileController> {
                   ),
                 ),
                 keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your phone number';
-                  }
-                  return null;
-                },
+                validator: FormValidators.phone,
               ),
               const SizedBox(height: 32),
 
