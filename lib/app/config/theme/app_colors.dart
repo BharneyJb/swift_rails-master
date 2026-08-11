@@ -63,10 +63,10 @@ class AppColors {
   );
   
   // Shadow Colors
-  static Color shadow = Colors.black.withOpacity(0.1);
-  static Color shadowDark = Colors.black.withOpacity(0.2);
+  static Color shadow = Colors.black.withValues(alpha: 0.1);
+  static Color shadowDark = Colors.black.withValues(alpha: 0.2);
   
   // Overlay Colors
-  static Color overlay = Colors.black.withOpacity(0.5);
-  static Color overlayLight = Colors.black.withOpacity(0.3);
+  static Color overlay = Colors.black.withValues(alpha: 0.5);
+  static Color overlayLight = Colors.black.withValues(alpha: 0.3);
 }

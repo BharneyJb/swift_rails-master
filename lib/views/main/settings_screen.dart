@@ -168,7 +168,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 shape: BoxShape.circle,
                 color: isDestructive
                     ? Colors.red.shade50
-                    : _purple.withOpacity(0.08),
+                    : _purple.withValues(alpha: 0.08),
               ),
               child: Icon(
                 icon,
@@ -258,7 +258,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: Colors.white.withValues(alpha: 0.7),
                                   width: 3),
                             ),
                             child: ClipOval(
@@ -266,7 +266,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   ? Image.asset(_avatarPath!,
                                       fit: BoxFit.cover)
                                   : Container(
-                                      color: Colors.white.withOpacity(0.15),
+                                      color: Colors.white.withValues(alpha: 0.15),
                                       child: Center(
                                         child: Text(
                                           _initials,

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 
 const port = 3000;
@@ -19,12 +20,12 @@ final dio = Dio(BaseOptions(
 Future<Response> getMethod(String url,
     [dynamic data, Map<String, dynamic>? headers]) async {
   url = '$url/$url';
-  print('url: $url');
+  debugPrint('url: $url');
 
   /*
   final response = await dio.get(url,
       queryParameters: data, options: Options(headers: headers));
-  print('response: ${response.data}');
+  debugPrint('response: ${response.data}');
   return response;
   */
   // Mock response
@@ -38,12 +39,12 @@ Future<Response> getMethod(String url,
 Future<Response> postMethod(String url,
     [dynamic data, Map<String, dynamic>? headers]) async {
   url = '$url/$url';
-  print('url: $url');
+  debugPrint('url: $url');
 
   /*
   final response =
       await dio.post(url, data: data, options: Options(headers: headers));
-  print('response: ${response.data}');
+  debugPrint('response: ${response.data}');
   return response;
   */
   // Mock response
@@ -57,12 +58,12 @@ Future<Response> postMethod(String url,
 Future<Response> putMethod(String url,
     [dynamic data, Map<String, dynamic>? headers]) async {
   url = '$url/$url';
-  print('url: $url');
+  debugPrint('url: $url');
 
   /*
   final response =
       await dio.get(url, data: data, options: Options(headers: headers));
-  print('response: ${response.data}');
+  debugPrint('response: ${response.data}');
   return response;
   */
   // Mock response
@@ -76,12 +77,12 @@ Future<Response> putMethod(String url,
 Future<Response> deleteMethod(String url,
     [dynamic data, Map<String, dynamic>? headers]) async {
   url = '$url/$url';
-  print('url: $url');
+  debugPrint('url: $url');
 
   /*
   final response =
       await dio.get(url, data: data, options: Options(headers: headers));
-  print('response: ${response.data}');
+  debugPrint('response: ${response.data}');
   return response;
   */
   // Mock response

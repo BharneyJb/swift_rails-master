@@ -37,7 +37,8 @@ class _OtpasswordState extends State<Otpassword> {
   Future<void> _loadUserEmail() async {
     final name = await UserService.getUserName();
     if (mounted) {
-      setState(() => _userEmail = name != null ? '$name\'s account' : 'your account');
+      setState(() =>
+          _userEmail = name != null ? '$name\'s account' : 'your account');
     }
   }
 
@@ -100,7 +101,7 @@ class _OtpasswordState extends State<Otpassword> {
 
     final focusedPinTheme = defaultPinTheme.copyWith(
       decoration: BoxDecoration(
-        color: _purple.withOpacity(0.05),
+        color: _purple.withValues(alpha: 0.05),
         borderRadius: borderRadius,
         border: Border.all(color: _purple, width: 2),
       ),
@@ -108,9 +109,9 @@ class _OtpasswordState extends State<Otpassword> {
 
     final submittedPinTheme = defaultPinTheme.copyWith(
       decoration: BoxDecoration(
-        color: _purple.withOpacity(0.08),
+        color: _purple.withValues(alpha: 0.08),
         borderRadius: borderRadius,
-        border: Border.all(color: _purple.withOpacity(0.5), width: 1.5),
+        border: Border.all(color: _purple.withValues(alpha: 0.5), width: 1.5),
       ),
     );
 
@@ -132,7 +133,8 @@ class _OtpasswordState extends State<Otpassword> {
                     height: 42,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.grey.shade300, width: 1.5),
+                      border:
+                          Border.all(color: Colors.grey.shade300, width: 1.5),
                     ),
                     child: Icon(Icons.arrow_back_ios_new_rounded,
                         size: 16, color: Colors.grey.shade700),
@@ -149,7 +151,8 @@ class _OtpasswordState extends State<Otpassword> {
                     shape: BoxShape.circle,
                     color: _purple,
                   ),
-                  child: Icon(Icons.lock_rounded, color: Colors.white, size: 26),
+                  child:
+                      Icon(Icons.lock_rounded, color: Colors.white, size: 26),
                 ),
                 const SizedBox(height: 20),
 

@@ -23,7 +23,7 @@ class NotificationsView extends GetView<NotificationsController> {
                       Icon(
                         Iconsax.notification,
                         size: 80,
-                        color: AppColors.textSecondary.withOpacity(0.5),
+                        color: AppColors.textSecondary.withValues(alpha: 0.5),
                       ),
                       const SizedBox(height: 16),
                       Text(

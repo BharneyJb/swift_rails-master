@@ -6,7 +6,7 @@ class PaymentStatus extends StatefulWidget {
   const PaymentStatus({ Key? key }) : super(key: key);
 
   @override
-  _PaymentStatusState createState() => _PaymentStatusState();
+  State<PaymentStatus> createState() => _PaymentStatusState();
 }
 
 class _PaymentStatusState extends State<PaymentStatus> {
@@ -22,10 +22,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        Container(
-                          // padding: EdgeInsets.only(bottom: 12),
-                          child: Icon(Icons.arrow_back),
-                        ),
+                        Icon(Icons.arrow_back),
                         SizedBox(
                           width: 10.0,
                         ),

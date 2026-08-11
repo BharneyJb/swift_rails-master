@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'storage_service.dart';
@@ -27,15 +28,15 @@ class ApiService extends GetxService {
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';
         }
-        print('REQUEST[${options.method}] => URI: ${options.uri}');
+        debugPrint('REQUEST[${options.method}] => URI: ${options.uri}');
         return handler.next(options);
       },
       onResponse: (response, handler) {
-        print('RESPONSE[${response.statusCode}] => DATA: ${response.data}');
+        debugPrint('RESPONSE[${response.statusCode}] => DATA: ${response.data}');
         return handler.next(response);
       },
       onError: (error, handler) {
-        print(
+        debugPrint(
             'ERROR[${error.response?.statusCode}] => MESSAGE: ${error.message}');
         return handler.next(error);
       },

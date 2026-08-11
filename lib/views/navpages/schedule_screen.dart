@@ -187,7 +187,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       Text(
                         'Find your next trip',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.72),
+                          color: Colors.white.withValues(alpha: 0.72),
                           fontSize: 13,
                         ),
                       ),
@@ -200,7 +200,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -208,22 +208,18 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         ),
                         child: TextField(
                           controller: _searchController,
-                          onChanged: (v) =>
-                              setState(() => _searchQuery = v),
+                          onChanged: (v) => setState(() => _searchQuery = v),
                           style: const TextStyle(fontSize: 14),
                           decoration: InputDecoration(
-                            hintText:
-                                'Search by station or train name…',
+                            hintText: 'Search by station or train name…',
                             hintStyle: TextStyle(
-                                color: Colors.grey.shade400,
-                                fontSize: 13),
-                            prefixIcon: Icon(Icons.location_on_outlined,
+                                color: Colors.grey.shade400, fontSize: 13),
+                            prefixIcon: const Icon(Icons.location_on_outlined,
                                 color: _purple, size: 20),
                             suffixIcon: _searchQuery.isNotEmpty
                                 ? IconButton(
                                     icon: Icon(Icons.clear,
-                                        color: Colors.grey.shade400,
-                                        size: 18),
+                                        color: Colors.grey.shade400, size: 18),
                                     onPressed: () {
                                       _searchController.clear();
                                       setState(() => _searchQuery = '');
@@ -231,8 +227,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                   )
                                 : null,
                             border: InputBorder.none,
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 14),
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 14),
                           ),
                         ),
                       ),
@@ -244,28 +240,24 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: _filters.length,
-                          separatorBuilder: (_, __) =>
-                              const SizedBox(width: 8),
+                          separatorBuilder: (_, __) => const SizedBox(width: 8),
                           itemBuilder: (_, i) {
                             final selected = _selectedFilter == i;
                             return GestureDetector(
-                              onTap: () =>
-                                  setState(() => _selectedFilter = i),
+                              onTap: () => setState(() => _selectedFilter = i),
                               child: AnimatedContainer(
-                                duration:
-                                    const Duration(milliseconds: 180),
+                                duration: const Duration(milliseconds: 180),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 7),
                                 decoration: BoxDecoration(
                                   color: selected
                                       ? Colors.white
-                                      : Colors.white.withOpacity(0.22),
-                                  borderRadius:
-                                      BorderRadius.circular(20),
+                                      : Colors.white.withValues(alpha: 0.22),
+                                  borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
                                     color: selected
                                         ? Colors.white
-                                        : Colors.white.withOpacity(0.4),
+                                        : Colors.white.withValues(alpha: 0.4),
                                     width: 1.2,
                                   ),
                                 ),
@@ -276,9 +268,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                     fontWeight: selected
                                         ? FontWeight.bold
                                         : FontWeight.normal,
-                                    color: selected
-                                        ? _purple
-                                        : Colors.white,
+                                    color: selected ? _purple : Colors.white,
                                   ),
                                 ),
                               ),
@@ -309,8 +299,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
                       color: _purple,
                       borderRadius: BorderRadius.circular(12),
@@ -340,13 +330,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         child: Column(
                           children: [
                             Icon(Icons.train_outlined,
-                                size: 48,
-                                color: Colors.grey.shade300),
+                                size: 48, color: Colors.grey.shade300),
                             const SizedBox(height: 12),
                             Text(
                               'No trips found.',
-                              style: TextStyle(
-                                  color: Colors.grey.shade500),
+                              style: TextStyle(color: Colors.grey.shade500),
                             ),
                           ],
                         ),

@@ -178,7 +178,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: _purple.withOpacity(0.3),
+            color: _purple.withValues(alpha: 0.3),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -319,7 +319,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
-                              color: _purple.withOpacity(0.08),
+                              color: _purple.withValues(alpha: 0.08),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
@@ -379,18 +379,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
               borderRadius: BorderRadius.circular(12)),
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              children: _paymentMethods.map((method) {
-                return RadioListTile<String>(
-                  value: method,
-                  groupValue: _selectedPaymentMethod,
-                  onChanged: (v) =>
-                      setState(() => _selectedPaymentMethod = v!),
-                  title: Text(method),
-                  activeColor: _purple,
-                  contentPadding: EdgeInsets.zero,
-                );
-              }).toList(),
+            child: RadioGroup<String>(
+              groupValue: _selectedPaymentMethod,
+              onChanged: (v) =>
+                  setState(() => _selectedPaymentMethod = v!),
+              child: Column(
+                children: _paymentMethods.map((method) {
+                  return RadioListTile<String>(
+                    value: method,
+                    title: Text(method),
+                    activeColor: _purple,
+                    contentPadding: EdgeInsets.zero,
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ),

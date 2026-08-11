@@ -74,9 +74,9 @@ class AuthController extends GetxController {
     try {
       isLoginLoading.value = true;
 
-      print(
+      debugPrint(
           'LOGIN: Attempting login with email: ${loginEmailController.text.trim()}');
-      print(
+      debugPrint(
           'LOGIN: API Endpoint: ${ApiEndpoints.baseUrl}${ApiEndpoints.login}');
 
       final response = await _apiService.post(

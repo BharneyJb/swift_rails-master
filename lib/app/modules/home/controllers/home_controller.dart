@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/services/storage_service.dart';
@@ -40,7 +41,7 @@ class HomeController extends GetxController {
         upcomingSchedules.value = data.map((e) => ScheduleModel.fromJson(e)).toList();
       }
     } catch (e) {
-      print('Error fetching schedules: $e');
+      debugPrint('Error fetching schedules: $e');
       // Use mock data for development
       _loadMockSchedules();
     } finally {
@@ -57,7 +58,7 @@ class HomeController extends GetxController {
         popularRoutes.value = data.map((e) => ScheduleModel.fromJson(e)).toList();
       }
     } catch (e) {
-      print('Error fetching popular routes: $e');
+      debugPrint('Error fetching popular routes: $e');
       _loadMockPopularRoutes();
     }
   }

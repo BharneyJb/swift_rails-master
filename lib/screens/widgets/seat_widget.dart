@@ -120,12 +120,12 @@ class SeatWidget extends StatelessWidget {
       case SeatStatus.selected:
         return [
           BoxShadow(
-            color: _purple.withOpacity(0.45),
+            color: _purple.withValues(alpha: 0.45),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
           BoxShadow(
-            color: Colors.orange.withOpacity(0.25),
+            color: Colors.orange.withValues(alpha: 0.25),
             blurRadius: 12,
             spreadRadius: 1,
           ),
@@ -133,7 +133,7 @@ class SeatWidget extends StatelessWidget {
       case SeatStatus.available:
         return [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),

@@ -83,6 +83,7 @@ class PaymentView extends StatelessWidget {
     );
     
     Future.delayed(const Duration(seconds: 2), () {
+      if (!context.mounted) return;
       Navigator.pop(context);
       Get.offAllNamed(AppRoutes.PAYMENT_SUCCESS);
     });

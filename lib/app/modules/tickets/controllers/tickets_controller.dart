@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/utils/api_endpoints.dart';
@@ -23,7 +24,7 @@ class TicketsController extends GetxController {
         tickets.value = response.data['bookings'] ?? [];
       }
     } catch (e) {
-      print('Error fetching tickets: $e');
+      debugPrint('Error fetching tickets: $e');
       // Mock data for development
       tickets.value = [];
     } finally {

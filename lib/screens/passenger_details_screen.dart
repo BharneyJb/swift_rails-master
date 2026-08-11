@@ -23,7 +23,7 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
   String _selectedClass = 'First Class';
   String _selectedCoach = 'Coach A';
   double _totalPrice = 0.0;
-  int _activeStep = 0; // 0=Seats 1=Passengers 2=Payment
+  final int _activeStep = 0; // 0=Seats 1=Passengers 2=Payment
 
   final Set<String> _selectedSeats = {};
   final Set<String> _occupiedSeats = {'A3', 'B2', 'C5', 'D1'};
@@ -241,7 +241,7 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
                                         : '12:00 AM',
                                     style: TextStyle(
                                       color:
-                                          Colors.white.withOpacity(0.75),
+                                          Colors.white.withValues(alpha: 0.75),
                                       fontSize: 12,
                                     ),
                                   ),
@@ -259,7 +259,7 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
                                   _durationLabel,
                                   style: TextStyle(
                                     color:
-                                        Colors.white.withOpacity(0.8),
+                                        Colors.white.withValues(alpha: 0.8),
                                     fontSize: 11,
                                   ),
                                 ),
@@ -268,7 +268,7 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
                                   widget.schedule?.name ?? 'L1',
                                   style: TextStyle(
                                     color:
-                                        Colors.white.withOpacity(0.65),
+                                        Colors.white.withValues(alpha: 0.65),
                                     fontSize: 10,
                                   ),
                                 ),
@@ -300,7 +300,7 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
                                         : '03:00 PM',
                                     style: TextStyle(
                                       color:
-                                          Colors.white.withOpacity(0.75),
+                                          Colors.white.withValues(alpha: 0.75),
                                       fontSize: 12,
                                     ),
                                   ),
@@ -496,7 +496,7 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
     required ValueChanged<T?> onChanged,
   }) {
     return DropdownButtonFormField<T>(
-      value: value,
+      initialValue: value,
       items: items,
       onChanged: onChanged,
       icon: const Icon(Icons.arrow_drop_down, color: _purple),
@@ -707,7 +707,7 @@ class _PassengerDetailsScreenState extends State<PassengerDetailsScreen> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 12,
             offset: const Offset(0, -4),
           ),

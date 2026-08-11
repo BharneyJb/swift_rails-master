@@ -7,7 +7,7 @@ class TicketDetails extends StatefulWidget {
   const TicketDetails({Key? key}) : super(key: key);
 
   @override
-  _TicketDetailsState createState() => _TicketDetailsState();
+  State<TicketDetails> createState() => _TicketDetailsState();
 }
 
 class _TicketDetailsState extends State<TicketDetails> {
@@ -26,10 +26,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Container(
-                        // padding: EdgeInsets.only(bottom: 12),
-                        child: Icon(Icons.arrow_back),
-                      ),
+                      Icon(Icons.arrow_back),
                       SizedBox(
                         width: 8.0,
                       ),

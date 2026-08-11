@@ -29,7 +29,7 @@ class EditProfileView extends GetView<ProfileController> {
                       final user = controller.currentUser.value;
                       return CircleAvatar(
                         radius: 60,
-                        backgroundColor: AppColors.primary.withOpacity(0.1),
+                        backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                         backgroundImage: (user?.avatar != null && user!.avatar!.isNotEmpty)
                             ? NetworkImage(user.avatar!)
                             : null,

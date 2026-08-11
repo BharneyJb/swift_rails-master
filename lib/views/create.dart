@@ -8,7 +8,7 @@ class Create extends StatefulWidget {
   const Create({ Key? key }) : super(key: key);
 
   @override
-  _CreateState createState() => _CreateState();
+  State<Create> createState() => _CreateState();
 }
 
 class _CreateState extends State<Create> {
@@ -30,11 +30,10 @@ class _CreateState extends State<Create> {
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: 45, left: 25),
-        child: Container(
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
               Text('Create new passcode',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
               ),
@@ -79,7 +78,6 @@ class _CreateState extends State<Create> {
 
             //    
             ],
-          ),
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/utils/api_endpoints.dart';
@@ -31,7 +32,7 @@ class TrainSearchController extends GetxController {
         stations.value = data.map((e) => StationModel.fromJson(e)).toList();
       }
     } catch (e) {
-      print('Error fetching stations: $e');
+      debugPrint('Error fetching stations: $e');
       _loadMockStations();
     } finally {
       isLoading.value = false;
@@ -62,7 +63,7 @@ class TrainSearchController extends GetxController {
         searchResults.value = data.map((e) => ScheduleModel.fromJson(e)).toList();
       }
     } catch (e) {
-      print('Error searching trains: $e');
+      debugPrint('Error searching trains: $e');
       _loadMockSearchResults();
     } finally {
       isSearching.value = false;

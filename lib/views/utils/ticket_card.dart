@@ -79,7 +79,7 @@ class TicketCard extends StatelessWidget {
                           Text(
                             'Train No: $trainNumber',
                             style: trainNumberStyle ??
-                                TextStyle(
+                                const TextStyle(
                                   fontSize: 16.0,
                                   color: Colors.grey,
                                 ),

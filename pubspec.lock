@@ -371,11 +371,10 @@ packages:
   google_fonts:
     dependency: "direct main"
     description:
-      name: google_fonts
-      sha256: "6b6f10f0ce3c42f6552d1c70d2c28d764cf22bb487f50f66cca31dcd5194f4d6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.4"
+      path: patched_google_fonts
+      relative: true
+    source: path
+    version: "6.0.0"
   hooks:
     dependency: transitive
     description:
@@ -385,7 +384,7 @@ packages:
     source: hosted
     version: "2.0.2"
   http:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: http
       sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"

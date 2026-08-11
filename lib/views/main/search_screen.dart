@@ -166,7 +166,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 Text(
                                   'Search trains between cities',
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.75),
+                                    color: Colors.white.withValues(alpha: 0.75),
                                     fontSize: 13,
                                   ),
                                 ),
@@ -180,9 +180,9 @@ class _SearchScreenState extends State<SearchScreen> {
                               height: 42,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.white.withOpacity(0.15),
+                                color: Colors.white.withValues(alpha: 0.15),
                                 border: Border.all(
-                                  color: Colors.white.withOpacity(0.3),
+                                  color: Colors.white.withValues(alpha: 0.3),
                                   width: 1.5,
                                 ),
                               ),
@@ -218,7 +218,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.06),
+                        color: Colors.black.withValues(alpha: 0.06),
                         blurRadius: 18,
                         offset: const Offset(0, 6),
                       ),
@@ -376,9 +376,9 @@ class _SearchScreenState extends State<SearchScreen> {
     return Container(
       height: 48,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.white.withOpacity(0.25), width: 1),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.25), width: 1),
       ),
       child: Row(
         children: [
@@ -443,7 +443,7 @@ class _SearchScreenState extends State<SearchScreen> {
             height: 44,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: accent.withOpacity(0.1),
+              color: accent.withValues(alpha: 0.1),
             ),
             child: Icon(
               Icons.train_outlined,
@@ -504,7 +504,7 @@ class _SearchScreenState extends State<SearchScreen> {
               height: 44,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: _purple.withOpacity(0.1),
+                color: _purple.withValues(alpha: 0.1),
               ),
               child: Icon(icon, color: _purple, size: 20),
             ),
@@ -549,7 +549,7 @@ class _SearchScreenState extends State<SearchScreen> {
     required ValueChanged<T?> onChanged,
   }) {
     return DropdownButtonFormField<T>(
-      value: value,
+      initialValue: value,
       items: items,
       onChanged: onChanged,
       icon: Icon(Icons.arrow_drop_down_rounded, color: _purple),

@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                        color: Colors.white.withOpacity(0.6),
+                                        color: Colors.white.withValues(alpha: 0.6),
                                         width: 2.5),
                                   ),
                                   child: ClipOval(
@@ -230,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             fit: BoxFit.cover,
                                           )
                                         : Container(
-                                            color: Colors.white.withOpacity(0.15),
+                                            color: Colors.white.withValues(alpha: 0.15),
                                             child: Center(
                                               child: Text(
                                                 _initials,
@@ -285,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Text(
                                   'Where are you travelling today?',
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.75),
+                                    color: Colors.white.withValues(alpha: 0.75),
                                     fontSize: 13,
                                   ),
                                 ),
@@ -434,9 +434,9 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 42,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         border: Border.all(
-            color: Colors.white.withOpacity(0.3), width: 1.5),
+            color: Colors.white.withValues(alpha: 0.3), width: 1.5),
       ),
       child: Icon(icon, color: Colors.white, size: 20),
     );

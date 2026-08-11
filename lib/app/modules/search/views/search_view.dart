@@ -44,7 +44,7 @@ class SearchView extends GetView<TrainSearchController> {
                           onPressed: controller.swapStations,
                           icon: const Icon(Iconsax.arrow_swap_horizontal),
                           style: IconButton.styleFrom(
-                            backgroundColor: AppColors.primary.withOpacity(0.1),
+                            backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                           ),
                         ),
                       ),
@@ -104,7 +104,7 @@ class SearchView extends GetView<TrainSearchController> {
                         Icon(
                           Iconsax.search_normal,
                           size: 80,
-                          color: AppColors.textSecondary.withOpacity(0.5),
+                          color: AppColors.textSecondary.withValues(alpha: 0.5),
                         ),
                         const SizedBox(height: 16),
                         Text(
@@ -253,7 +253,7 @@ class SearchView extends GetView<TrainSearchController> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.success.withOpacity(0.1),
+                      color: AppColors.success.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(

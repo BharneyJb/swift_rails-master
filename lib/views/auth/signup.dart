@@ -316,15 +316,13 @@ class _SignupState extends State<Signup> {
 
                       // Store the user's first name
                       await UserService.storeUserName(firstNameController.text.trim());
-
-                      if (mounted) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return Verification(email: emailController.text.trim());
-                          }),
-                        );
-                      }
+                      if (!mounted) return;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return Verification(email: emailController.text.trim());
+                        }),
+                      );
                     }
                   },
                   child: const Text(
