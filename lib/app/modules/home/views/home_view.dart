@@ -260,21 +260,41 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildSchedulesList() {
     return Obx(() => controller.upcomingSchedules.isEmpty
-        ? const Center(child: Text('No upcoming trains'))
+        ? const Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 32),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Iconsax.calendar, size: 48, color: AppColors.textSecondary),
+                  SizedBox(height: 16),
+                  Text(
+                    'No upcoming trains for today',
+                    style: TextStyle(color: AppColors.textSecondary),
+                  ),
+                ],
+              ),
+            ),
+          )
         : ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: controller.upcomingSchedules.length,
             itemBuilder: (context, index) {
               final schedule = controller.upcomingSchedules[index];
-              return _buildScheduleCard(schedule);
+              return _buildScheduleCard(context, schedule);
             },
           ));
   }
 
-  Widget _buildScheduleCard(schedule) {
+  Widget _buildScheduleCard(BuildContext context, schedule) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: AppColors.border),
+      ),
       child: InkWell(
         onTap: () => Get.toNamed(AppRoutes.SEAT_SELECTION, arguments: schedule),
         borderRadius: BorderRadius.circular(16),
@@ -286,23 +306,29 @@ class HomeView extends GetView<HomeController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    schedule.trainName,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    children: [
+                      Icon(Iconsax.bus, size: 18, color: AppColors.primary),
+                      const SizedBox(width: 8),
+                      Text(
+                        schedule.trainName,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.success.withValues(alpha: 0.1),
+                      color: AppColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      '${schedule.availableSeats} seats',
+                      'View Seats',
                       style: const TextStyle(
-                        color: AppColors.success,
+                        color: AppColors.primary,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
@@ -310,7 +336,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
@@ -319,38 +345,48 @@ class HomeView extends GetView<HomeController> {
                       children: [
                         Text(
                           schedule.from,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                         Text(
-                          DateFormat('HH:mm').format(schedule.departureTime),
+                          DateFormat('do MMM, HH:mm').format(schedule.departureTime),
                           style: const TextStyle(
                             color: AppColors.textSecondary,
-                            fontSize: 14,
+                            fontSize: 13,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Icon(Iconsax.arrow_right_3, color: AppColors.primary),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: [
+                        const Icon(Iconsax.arrow_right_3, color: AppColors.primary),
+                        Container(
+                          height: 1,
+                          width: 40,
+                          color: AppColors.border,
+                        ),
+                      ],
+                    ),
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
                           schedule.to,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                         Text(
                           DateFormat('HH:mm').format(schedule.arrivalTime),
                           style: const TextStyle(
                             color: AppColors.textSecondary,
-                            fontSize: 14,
+                            fontSize: 13,
                           ),
                         ),
                       ],
@@ -358,22 +394,30 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ],
               ),
+              const SizedBox(height: 16),
+              const Divider(height: 1, color: AppColors.border),
               const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    schedule.duration,
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
-                      fontSize: 14,
-                    ),
+                  Row(
+                    children: [
+                      const Icon(Iconsax.timer, size: 16, color: AppColors.textSecondary),
+                      const SizedBox(width: 4),
+                      Text(
+                        schedule.duration,
+                        style: const TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
                   ),
                   Text(
-                    '₦${schedule.price.toStringAsFixed(0)}',
+                    'From ₦${schedule.price.toStringAsFixed(0)}',
                     style: const TextStyle(
                       color: AppColors.primary,
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

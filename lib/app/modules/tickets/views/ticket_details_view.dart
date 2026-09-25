@@ -16,9 +16,15 @@ class TicketDetailsView extends StatelessWidget {
     String formatTime(String? dateTimeString) {
       if (dateTimeString == null || dateTimeString.isEmpty) return '00:00';
       try {
+        // If it's an ISO 8601 string (contains T)
         if (dateTimeString.contains('T')) {
-          return dateTimeString.split('T')[1].substring(0, 5);
-        } else if (dateTimeString.length >= 5) {
+          final parts = dateTimeString.split('T');
+          if (parts.length > 1) {
+            return parts[1].substring(0, 5);
+          }
+        }
+        // If it's just a time string (HH:mm:ss)
+        if (dateTimeString.length >= 5) {
           return dateTimeString.substring(0, 5);
         }
         return dateTimeString;
@@ -26,6 +32,7 @@ class TicketDetailsView extends StatelessWidget {
         return '00:00';
       }
     }
+
 
     final date = ticketData['date']?.toString().split('T')[0] ?? '';
     final departureTime = formatTime(ticketData['bookingDepartureTime']?.toString());

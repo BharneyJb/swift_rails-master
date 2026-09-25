@@ -46,41 +46,86 @@ class MyTicketsView extends GetView<TicketsController> {
                   padding: const EdgeInsets.all(20),
                   itemCount: controller.tickets.length,
                   itemBuilder: (context, index) {
+                    final ticket = controller.tickets[index] as Map<String, dynamic>;
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => TicketDetailsView(
-                              ticket: controller.tickets[index] as Map<String, dynamic>,
+                              ticket: ticket,
                             ),
                           ),
                         );
                       },
                       child: Card(
                         margin: const EdgeInsets.only(bottom: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          side: BorderSide(color: AppColors.border),
+                        ),
+                        elevation: 0,
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Ticket #${index + 1}',
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              const SizedBox(height: 8),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    controller.tickets[index]['scheduleName'] ?? 'Train Journey',
-                                    style: Theme.of(context).textTheme.bodyMedium,
+                                    'Ticket #${ticket['id'] ?? (index + 1)}',
+                                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   Text(
-                                    controller.tickets[index]['date']?.toString().split('T')[0] ?? '',
+                                    ticket['travelClass'] ?? 'Standard',
                                     style: Theme.of(context).textTheme.bodySmall,
                                   ),
                                 ],
-                              ),
+                                ),
+                              const SizedBox(height: 12),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        ticket['departureStation'] ?? 'Departure',
+                                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        (ticket['bookingDepartureTime']?.toString().split('T').length ?? 0) > 1
+                                            ? ticket['bookingDepartureTime'].toString().split('T')[1].substring(0, 5)
+                                            : '00:00',
+                                        style: Theme.of(context).textTheme.bodySmall,
+                                      ),
+                                    ],
+                                  ),
+                                  const Icon(Iconsax.arrow_right_1, color: AppColors.textSecondary),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        ticket['arrivalStation'] ?? 'Arrival',
+                                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        (ticket['bookingArrivalTime']?.toString().split('T').length ?? 0) > 1
+                                            ? ticket['bookingArrivalTime'].toString().split('T')[1].substring(0, 5)
+                                            : '00:00',
+                                        style: Theme.of(context).textTheme.bodySmall,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                                ),
                             ],
                           ),
                         ),
