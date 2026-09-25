@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../config/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
+import '../controllers/booking_controller.dart';
 
-class PaymentSuccessView extends StatelessWidget {
+class PaymentSuccessView extends GetView<BookingController> {
   const PaymentSuccessView({super.key});
 
   @override
@@ -30,14 +31,14 @@ class PaymentSuccessView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 32),
-              
+
               Text(
                 'Payment Successful!',
                 style: Theme.of(context).textTheme.headlineMedium,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
-              
+
               Text(
                 'Your ticket has been booked successfully',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -45,17 +46,48 @@ class PaymentSuccessView extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
+              const SizedBox(height: 24),
+
+              // Ticket ID Display
+              Obx(() => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                decoration: BoxDecoration(
+                  color: AppColors.border.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      'TICKET ID',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.textSecondary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      controller.bookingId.value.isEmpty
+                          ? 'N/A'
+                          : controller.bookingId.value,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              )),
               const SizedBox(height: 48),
-              
+
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => Get.offAllNamed(AppRoutes.TICKET_DETAILS),
+                  onPressed: () => Get.offAllNamed(AppRoutes.MY_TICKETS),
                   child: const Text('View Ticket'),
                 ),
               ),
               const SizedBox(height: 12),
-              
+
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(

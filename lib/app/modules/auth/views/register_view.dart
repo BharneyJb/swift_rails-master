@@ -11,9 +11,7 @@ class RegisterView extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Account'),
-      ),
+      appBar: AppBar(title: const Text('Create Account')),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -22,7 +20,7 @@ class RegisterView extends GetView<AuthController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 Text(
                   'Join Swift Rails',
                   style: Theme.of(context).textTheme.displaySmall,
@@ -31,29 +29,38 @@ class RegisterView extends GetView<AuthController> {
                 Text(
                   'Create an account to start booking',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
+                        color: AppColors.textSecondary,
+                      ),
                 ),
-                const SizedBox(height: 32),
-                
-                // Name Field
+                const SizedBox(height: 28),
+
+                // ── First Name ────────────────────────────────────────────────
                 TextFormField(
-                  controller: controller.registerNameController,
+                  controller: controller.registerFirstNameController,
                   decoration: const InputDecoration(
-                    labelText: 'Full Name',
-                    hintText: 'Enter your full name',
+                    labelText: 'First Name',
+                    hintText: 'e.g. John',
                     prefixIcon: Icon(Iconsax.user),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
+                  validator: (v) =>
+                      (v == null || v.trim().isEmpty) ? 'First name is required' : null,
                 ),
                 const SizedBox(height: 16),
-                
-                // Email Field
+
+                // ── Surname ───────────────────────────────────────────────────
+                TextFormField(
+                  controller: controller.registerSurnameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Surname',
+                    hintText: 'e.g. Doe',
+                    prefixIcon: Icon(Iconsax.user),
+                  ),
+                  validator: (v) =>
+                      (v == null || v.trim().isEmpty) ? 'Surname is required' : null,
+                ),
+                const SizedBox(height: 16),
+
+                // ── Email ─────────────────────────────────────────────────────
                 TextFormField(
                   controller: controller.registerEmailController,
                   keyboardType: TextInputType.emailAddress,
@@ -65,100 +72,178 @@ class RegisterView extends GetView<AuthController> {
                   validator: FormValidators.email,
                 ),
                 const SizedBox(height: 16),
-                
-                // Phone Field
+
+                // ── Phone ─────────────────────────────────────────────────────
                 TextFormField(
                   controller: controller.registerPhoneController,
                   keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
                     labelText: 'Phone Number',
-                    hintText: 'Enter your phone number',
+                    hintText: 'e.g. 08012345678',
                     prefixIcon: Icon(Iconsax.call),
                   ),
                   validator: FormValidators.phone,
                 ),
                 const SizedBox(height: 16),
-                
-                // Password Field
-                Obx(() => TextFormField(
-                  controller: controller.registerPasswordController,
-                  obscureText: !controller.isRegisterPasswordVisible.value,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    hintText: 'Enter your password',
-                    prefixIcon: const Icon(Iconsax.lock),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        controller.isRegisterPasswordVisible.value
-                            ? Iconsax.eye
-                            : Iconsax.eye_slash,
+
+                // ── Gender ────────────────────────────────────────────────────
+                Obx(() => DropdownButtonFormField<String>(
+                      value: controller.registerGender.value.isEmpty
+                          ? null
+                          : controller.registerGender.value,
+                      decoration: const InputDecoration(
+                        labelText: 'Gender',
+                        prefixIcon: Icon(Iconsax.profile_circle),
                       ),
-                      onPressed: controller.toggleRegisterPasswordVisibility,
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
-                    }
-                    return null;
-                  },
-                )),
+                      items: const [
+                        DropdownMenuItem(value: 'Male', child: Text('Male')),
+                        DropdownMenuItem(
+                            value: 'Female', child: Text('Female')),
+                      ],
+                      onChanged: (v) =>
+                          controller.registerGender.value = v ?? '',
+                      validator: (v) =>
+                          (v == null || v.isEmpty) ? 'Please select gender' : null,
+                    )),
                 const SizedBox(height: 16),
-                
-                // Confirm Password Field
-                Obx(() => TextFormField(
-                  controller: controller.registerConfirmPasswordController,
-                  obscureText: !controller.isRegisterConfirmPasswordVisible.value,
-                  decoration: InputDecoration(
-                    labelText: 'Confirm Password',
-                    hintText: 'Re-enter your password',
-                    prefixIcon: const Icon(Iconsax.lock),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        controller.isRegisterConfirmPasswordVisible.value
-                            ? Iconsax.eye
-                            : Iconsax.eye_slash,
-                      ),
-                      onPressed: controller.toggleRegisterConfirmPasswordVisibility,
+
+                // ── Date of Birth ─────────────────────────────────────────────
+                Obx(() {
+                  final dob = controller.registerDob.value;
+                  final dobText = dob == null
+                      ? ''
+                      : '${dob.year}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}';
+                  return TextFormField(
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      labelText: 'Date of Birth',
+                      hintText: 'Select date',
+                      prefixIcon: const Icon(Iconsax.calendar),
                     ),
+                    controller: TextEditingController(text: dobText),
+                    onTap: () async {
+                      final picked = await showDatePicker(
+                        context: context,
+                        initialDate: dob ?? DateTime(1995),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now().subtract(
+                          const Duration(days: 365 * 10),
+                        ),
+                      );
+                      if (picked != null) {
+                        controller.registerDob.value = picked;
+                      }
+                    },
+                  );
+                }),
+                const SizedBox(height: 16),
+
+                // ── NIN ───────────────────────────────────────────────────────
+                TextFormField(
+                  controller: controller.registerNinController,
+                  keyboardType: TextInputType.number,
+                  maxLength: 11,
+                  decoration: const InputDecoration(
+                    labelText: 'NIN (National Identification Number)',
+                    hintText: '11-digit NIN',
+                    prefixIcon: Icon(Iconsax.card),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) {
+                      return 'NIN is required';
                     }
-                    if (value != controller.registerPasswordController.text) {
-                      return 'Passwords do not match';
+                    if (v.trim().length != 11) {
+                      return 'NIN must be exactly 11 digits';
                     }
                     return null;
                   },
-                )),
+                ),
+                const SizedBox(height: 16),
+
+                // ── Password ──────────────────────────────────────────────────
+                Obx(() => TextFormField(
+                      controller: controller.registerPasswordController,
+                      obscureText: !controller.isRegisterPasswordVisible.value,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'Min 8 chars, upper, lower, number, symbol',
+                        prefixIcon: const Icon(Iconsax.lock),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            controller.isRegisterPasswordVisible.value
+                                ? Iconsax.eye
+                                : Iconsax.eye_slash,
+                          ),
+                          onPressed:
+                              controller.toggleRegisterPasswordVisibility,
+                        ),
+                      ),
+                      validator: (v) {
+                        if (v == null || v.isEmpty) {
+                          return 'Password is required';
+                        }
+                        if (v.length < 8) {
+                          return 'Must be at least 8 characters';
+                        }
+                        return null;
+                      },
+                    )),
+                const SizedBox(height: 16),
+
+                // ── Confirm Password ──────────────────────────────────────────
+                Obx(() => TextFormField(
+                      controller:
+                          controller.registerConfirmPasswordController,
+                      obscureText:
+                          !controller.isRegisterConfirmPasswordVisible.value,
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
+                        prefixIcon: const Icon(Iconsax.lock),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            controller.isRegisterConfirmPasswordVisible.value
+                                ? Iconsax.eye
+                                : Iconsax.eye_slash,
+                          ),
+                          onPressed: controller
+                              .toggleRegisterConfirmPasswordVisibility,
+                        ),
+                      ),
+                      validator: (v) {
+                        if (v == null || v.isEmpty) {
+                          return 'Please confirm your password';
+                        }
+                        if (v != controller.registerPasswordController.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                    )),
                 const SizedBox(height: 32),
-                
-                // Register Button
+
+                // ── Register Button ───────────────────────────────────────────
                 Obx(() => SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: controller.isRegisterLoading.value
-                        ? null
-                        : controller.register,
-                    child: controller.isRegisterLoading.value
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          )
-                        : const Text('Register'),
-                  ),
-                )),
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: controller.isRegisterLoading.value
+                            ? null
+                            : controller.register,
+                        child: controller.isRegisterLoading.value
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white),
+                                ),
+                              )
+                            : const Text('Create Account'),
+                      ),
+                    )),
                 const SizedBox(height: 24),
-                
-                // Login Link
+
+                // ── Login Link ────────────────────────────────────────────────
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

@@ -26,10 +26,15 @@ class TrainSearchController extends GetxController {
     try {
       isLoading.value = true;
       final response = await _apiService.get(ApiEndpoints.stations);
-      
+
       if (response.statusCode == 200) {
-        final List<dynamic> data = response.data['stations'] ?? [];
-        stations.value = data.map((e) => StationModel.fromJson(e)).toList();
+        // API may return a bare array or {stations: [...]}
+        final dynamic raw = response.data;
+        final List<dynamic> data = raw is List
+            ? raw
+            : (raw is Map ? (raw['stations'] ?? raw['data'] ?? []) : []);
+        stations.value =
+            data.map((e) => StationModel.fromJson(e as Map<String, dynamic>)).toList();
       }
     } catch (e) {
       debugPrint('Error fetching stations: $e');
@@ -57,10 +62,14 @@ class TrainSearchController extends GetxController {
           'date': selectedDate.value.toIso8601String(),
         },
       );
-      
+
       if (response.statusCode == 200) {
-        final List<dynamic> data = response.data['schedules'] ?? [];
-        searchResults.value = data.map((e) => ScheduleModel.fromJson(e)).toList();
+        final dynamic raw = response.data;
+        final List<dynamic> data = raw is List
+            ? raw
+            : (raw is Map ? (raw['schedules'] ?? raw['data'] ?? []) : []);
+        searchResults.value =
+            data.map((e) => ScheduleModel.fromJson(e as Map<String, dynamic>)).toList();
       }
     } catch (e) {
       debugPrint('Error searching trains: $e');

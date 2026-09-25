@@ -112,11 +112,11 @@ class GoogleFontsVariant {
   @override
   String toString() {
     final fontWeightString =
-        fontWeight.index == 3 ? '' : (fontWeight.index + 1) * 100;
+        fontWeight.value == 3 ? '' : (fontWeight.value + 1) * 100;
     final fontStyleString = fontStyle
         .toString()
         .replaceAll('FontStyle.', '')
-        .replaceFirst(_normal, fontWeight.index == 3 ? _regular : '');
+        .replaceFirst(_normal, fontWeight.value == 3 ? _regular : '');
     return '$fontWeightString$fontStyleString';
   }
 

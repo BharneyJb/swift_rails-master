@@ -67,7 +67,7 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
             Obx(() => Text(
-              controller.currentUser.value?.name ?? 'Guest',
+              controller.currentUser.value?.fullName ?? 'Guest',
               style: Theme.of(context).textTheme.headlineMedium,
             )),
           ],
@@ -99,13 +99,13 @@ class HomeView extends GetView<HomeController> {
               child: CircleAvatar(
                 radius: 24,
                 backgroundColor: AppColors.primary,
-                child: Text(
-                  controller.currentUser.value?.name.substring(0, 1).toUpperCase() ?? 'G',
+                child: Obx(() => Text(
+                  controller.currentUser.value?.initial ?? 'G',
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
+                )),
               ),
             ),
           ],

@@ -31,14 +31,23 @@ class HomeController extends GetxController {
     }
   }
 
+  /// Called by ProfileController after a successful profile update so the
+  /// home screen name/avatar updates without a full page reload.
+  void refreshUser() => loadUserData();
+
   Future<void> fetchUpcomingSchedules() async {
     try {
       isLoading.value = true;
       final response = await _apiService.get(ApiEndpoints.schedules);
-      
+
       if (response.statusCode == 200) {
-        final List<dynamic> data = response.data['schedules'] ?? [];
-        upcomingSchedules.value = data.map((e) => ScheduleModel.fromJson(e)).toList();
+        // API may return a bare array or a wrapped {schedules: [...]}
+        final dynamic raw = response.data;
+        final List<dynamic> data = raw is List
+            ? raw
+            : (raw is Map ? (raw['schedules'] ?? raw['data'] ?? []) : []);
+        upcomingSchedules.value =
+            data.map((e) => ScheduleModel.fromJson(e as Map<String, dynamic>)).toList();
       }
     } catch (e) {
       debugPrint('Error fetching schedules: $e');
@@ -52,10 +61,14 @@ class HomeController extends GetxController {
   Future<void> fetchPopularRoutes() async {
     try {
       final response = await _apiService.get('${ApiEndpoints.schedules}/popular');
-      
+
       if (response.statusCode == 200) {
-        final List<dynamic> data = response.data['routes'] ?? [];
-        popularRoutes.value = data.map((e) => ScheduleModel.fromJson(e)).toList();
+        final dynamic raw = response.data;
+        final List<dynamic> data = raw is List
+            ? raw
+            : (raw is Map ? (raw['routes'] ?? raw['schedules'] ?? raw['data'] ?? []) : []);
+        popularRoutes.value =
+            data.map((e) => ScheduleModel.fromJson(e as Map<String, dynamic>)).toList();
       }
     } catch (e) {
       debugPrint('Error fetching popular routes: $e');

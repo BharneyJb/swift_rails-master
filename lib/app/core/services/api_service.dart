@@ -156,9 +156,9 @@ class ApiService extends GetxService {
       case 400:
         return response.data['message'] ?? 'Bad request';
       case 401:
-        _storageService.logout();
+        _storageService.clearSession();
         Get.offAllNamed('/login');
-        return 'Unauthorized. Please login again.';
+        return 'Session expired. Please login again.';
       case 403:
         return 'Access forbidden';
       case 404:

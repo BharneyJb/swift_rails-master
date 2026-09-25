@@ -46,8 +46,12 @@ class StorageService extends GetxService {
   // Clear all data
   Future<void> clearAll() => _box.erase();
 
-  // Logout
-  Future<void> logout() async {
+  // Logout — clears everything and resets login state
+  Future<void> logout() => clearSession();
+
+  // Atomically clears token, user data, and logged-in flag.
+  // Use this everywhere a session must be fully terminated (logout, 401, expired token).
+  Future<void> clearSession() async {
     await removeToken();
     await removeUserData();
     await setLoggedIn(false);

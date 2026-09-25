@@ -29,7 +29,7 @@ class ProfileView extends GetView<ProfileController> {
                       radius: 40,
                       backgroundColor: AppColors.primary,
                       child: Obx(() => Text(
-                        controller.currentUser.value?.name.substring(0, 1).toUpperCase() ?? 'G',
+                        controller.currentUser.value?.initial ?? 'U',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 32,
@@ -43,7 +43,7 @@ class ProfileView extends GetView<ProfileController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Obx(() => Text(
-                            controller.currentUser.value?.name ?? 'Guest',
+                            controller.currentUser.value?.fullName ?? 'Guest',
                             style: Theme.of(context).textTheme.titleLarge,
                           )),
                           const SizedBox(height: 4),

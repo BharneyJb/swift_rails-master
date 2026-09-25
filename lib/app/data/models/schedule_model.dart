@@ -24,21 +24,31 @@ class ScheduleModel {
   });
 
   factory ScheduleModel.fromJson(Map<String, dynamic> json) {
+    // Helper: station field may be an int ID or a string name
+    String stationStr(dynamic val) {
+      if (val == null) return '';
+      return val.toString();
+    }
+
     return ScheduleModel(
       id: json['id'] ?? 0,
-      trainName: json['train_name'] ?? json['name'] ?? '',
-      from: json['from'] ?? json['departure_station'] ?? '',
-      to: json['to'] ?? json['arrival_station'] ?? '',
-      departureTime: json['departure_time'] != null
-          ? DateTime.parse(json['departure_time'])
-          : DateTime.now(),
-      arrivalTime: json['arrival_time'] != null
-          ? DateTime.parse(json['arrival_time'])
-          : DateTime.now(),
-      price: (json['price'] ?? 0).toDouble(),
-      availableSeats: json['available_seats'] ?? 0,
-      trainNumber: json['train_number'],
-      trainClass: json['train_class'],
+      trainName: json['name'] ?? json['train_name'] ?? '',
+      from: stationStr(json['departureStation'] ?? json['from'] ?? json['departure_station'] ?? ''),
+      to: stationStr(json['stationId'] ?? json['to'] ?? json['arrival_station'] ?? ''),
+      departureTime: json['departureTime'] != null
+          ? DateTime.parse(json['departureTime'])
+          : json['departure_time'] != null
+              ? DateTime.parse(json['departure_time'])
+              : DateTime.now(),
+      arrivalTime: json['arrivalTime'] != null
+          ? DateTime.parse(json['arrivalTime'])
+          : json['arrival_time'] != null
+              ? DateTime.parse(json['arrival_time'])
+              : DateTime.now(),
+      price: ((json['price'] ?? 0) as num).toDouble(),
+      availableSeats: json['available_seats'] ?? json['availableSeats'] ?? 0,
+      trainNumber: json['train_number'] ?? json['trainId']?.toString(),
+      trainClass: json['train_class'] ?? json['trainClass'],
     );
   }
 

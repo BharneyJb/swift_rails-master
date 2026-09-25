@@ -186,17 +186,21 @@ Future<void> loadFontIfNecessary(GoogleFontsDescriptor descriptor) async {
     }
   } catch (e) {
     _loadedFonts.remove(familyWithVariantString);
+    // ignore: avoid_print
     print('Error: google_fonts was unable to load font $fontName because the '
         'following exception occurred:\n$e');
     if (file_io.isTest) {
+      // ignore: avoid_print
       print('\nThere is likely something wrong with your test. Please see '
           'https://github.com/material-foundation/flutter-packages/blob/main/packages/google_fonts/example/test '
           'for examples of how to test with google_fonts.');
     } else if (file_io.isMacOS || file_io.isAndroid) {
+      // ignore: avoid_print
       print(
         '\nSee https://docs.flutter.dev/development/data-and-backend/networking#platform-notes.',
       );
     }
+    // ignore: avoid_print
     print('If troubleshooting doesn\'t solve the problem, please file an issue '
         'at https://github.com/material-foundation/flutter-packages/issues/new/choose.\n');
     rethrow;
@@ -286,7 +290,7 @@ int _computeMatch(GoogleFontsVariant a, GoogleFontsVariant b) {
   if (a == b) {
     return 0;
   }
-  int score = (a.fontWeight.index - b.fontWeight.index).abs();
+  int score = (a.fontWeight.value - b.fontWeight.value).abs();
   if (a.fontStyle != b.fontStyle) {
     score += 2;
   }

@@ -1,0 +1,6 @@
+# Analysis options for the vendored patched_google_fonts package.
+# Suppresses informational hints that originate from upstream google_fonts source
+# and are not relevant to this project's own code.
+analyzer:
+  errors:
+    todo: ignore

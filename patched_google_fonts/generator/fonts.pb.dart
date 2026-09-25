@@ -44,17 +44,17 @@ class FileSpec extends $pb.GeneratedMessage {
     $fixnum.Int64? fileSize,
     $core.List<$core.int>? hash,
   }) {
-    final _result = create();
+    final result = create();
     if (filename != null) {
-      _result.filename = filename;
+      result.filename = filename;
     }
     if (fileSize != null) {
-      _result.fileSize = fileSize;
+      result.fileSize = fileSize;
     }
     if (hash != null) {
-      _result.hash = hash;
+      result.hash = hash;
     }
-    return _result;
+    return result;
   }
   factory FileSpec.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -148,14 +148,14 @@ class IntRange extends $pb.GeneratedMessage {
     $core.int? start,
     $core.int? end,
   }) {
-    final _result = create();
+    final result = create();
     if (start != null) {
-      _result.start = start;
+      result.start = start;
     }
     if (end != null) {
-      _result.end = end;
+      result.end = end;
     }
-    return _result;
+    return result;
   }
   factory IntRange.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -237,14 +237,14 @@ class FloatRange extends $pb.GeneratedMessage {
     $core.double? start,
     $core.double? end,
   }) {
-    final _result = create();
+    final result = create();
     if (start != null) {
-      _result.start = start;
+      result.start = start;
     }
     if (end != null) {
-      _result.end = end;
+      result.end = end;
     }
-    return _result;
+    return result;
   }
   factory FloatRange.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -347,23 +347,23 @@ class Font extends $pb.GeneratedMessage {
     FloatRange? italic,
     $core.int? ttcIndex,
   }) {
-    final _result = create();
+    final result = create();
     if (file != null) {
-      _result.file = file;
+      result.file = file;
     }
     if (weight != null) {
-      _result.weight = weight;
+      result.weight = weight;
     }
     if (width != null) {
-      _result.width = width;
+      result.width = width;
     }
     if (italic != null) {
-      _result.italic = italic;
+      result.italic = italic;
     }
     if (ttcIndex != null) {
-      _result.ttcIndex = ttcIndex;
+      result.ttcIndex = ttcIndex;
     }
-    return _result;
+    return result;
   }
   factory Font.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -496,17 +496,17 @@ class FontFamily extends $pb.GeneratedMessage {
     $core.int? version,
     $core.Iterable<Font>? fonts,
   }) {
-    final _result = create();
+    final result = create();
     if (name != null) {
-      _result.name = name;
+      result.name = name;
     }
     if (version != null) {
-      _result.version = version;
+      result.version = version;
     }
     if (fonts != null) {
-      _result.fonts.addAll(fonts);
+      result.fonts.addAll(fonts);
     }
-    return _result;
+    return result;
   }
   factory FontFamily.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -618,26 +618,26 @@ class Directory extends $pb.GeneratedMessage {
     $core.int? version,
     $core.String? description,
   }) {
-    final _result = create();
+    final result = create();
     if (family != null) {
-      _result.family.addAll(family);
+      result.family.addAll(family);
     }
     if (nameLookup != null) {
-      _result.nameLookup.addAll(nameLookup);
+      result.nameLookup.addAll(nameLookup);
     }
     if (strings != null) {
-      _result.strings.addAll(strings);
+      result.strings.addAll(strings);
     }
     if (prefetch != null) {
-      _result.prefetch.addAll(prefetch);
+      result.prefetch.addAll(prefetch);
     }
     if (version != null) {
-      _result.version = version;
+      result.version = version;
     }
     if (description != null) {
-      _result.description = description;
+      result.description = description;
     }
-    return _result;
+    return result;
   }
   factory Directory.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>

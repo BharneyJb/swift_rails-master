@@ -15,6 +15,7 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/booking/bindings/booking_binding.dart';
+import '../modules/booking/views/class_selection_view.dart';
 import '../modules/booking/views/seat_selection_view.dart';
 import '../modules/booking/views/passenger_details_view.dart';
 import '../modules/booking/views/payment_view.dart';
@@ -28,7 +29,14 @@ import '../modules/profile/views/edit_profile_view.dart';
 import '../modules/profile/views/trip_history_view.dart';
 import '../modules/notifications/bindings/notifications_binding.dart';
 import '../modules/notifications/views/notifications_view.dart';
+import '../modules/admin/bindings/admin_binding.dart';
+import '../modules/admin/views/admin_dashboard_view.dart';
+import '../modules/admin/views/manage_trains_view.dart';
+import '../modules/admin/views/manage_stations_view.dart';
+import '../modules/admin/views/manage_bookings_view.dart';
+import '../modules/admin/views/fare_management_view.dart';
 import 'app_routes.dart';
+import 'admin_middleware.dart';
 
 class AppPages {
   static final pages = [
@@ -43,7 +51,7 @@ class AppPages {
       page: () => const OnboardingView(),
       binding: OnboardingBinding(),
     ),
-    
+
     // Auth
     GetPage(
       name: AppRoutes.LOGIN,
@@ -72,7 +80,7 @@ class AppPages {
       page: () => const ResetPasswordView(),
       binding: AuthBinding(),
     ),
-    
+
     // Main
     GetPage(
       name: AppRoutes.MAIN,
@@ -90,8 +98,14 @@ class AppPages {
       page: () => const HomeView(),
       binding: HomeBinding(),
     ),
-    
+
     // Booking Flow
+    GetPage(
+      name: AppRoutes.CLASS_SELECTION,
+      page: () => const ClassSelectionView(),
+      binding: BookingBinding(),
+      transition: Transition.rightToLeft,
+    ),
     GetPage(
       name: AppRoutes.SEAT_SELECTION,
       page: () => const SeatSelectionView(),
@@ -116,7 +130,7 @@ class AppPages {
       binding: BookingBinding(),
       transition: Transition.zoom,
     ),
-    
+
     // Tickets
     GetPage(
       name: AppRoutes.MY_TICKETS,
@@ -129,7 +143,7 @@ class AppPages {
       binding: TicketsBinding(),
       transition: Transition.rightToLeft,
     ),
-    
+
     // Profile
     GetPage(
       name: AppRoutes.PROFILE,
@@ -148,13 +162,50 @@ class AppPages {
       binding: ProfileBinding(),
       transition: Transition.rightToLeft,
     ),
-    
+
     // Notifications
     GetPage(
       name: AppRoutes.NOTIFICATIONS,
       page: () => const NotificationsView(),
       binding: NotificationsBinding(),
       transition: Transition.downToUp,
+    ),
+
+    // Admin
+    GetPage(
+      name: AppRoutes.ADMIN_DASHBOARD,
+      page: () => const AdminDashboardView(),
+      binding: AdminBinding(),
+      middlewares: [AdminMiddleware()],
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: AppRoutes.MANAGE_TRAINS,
+      page: () => const ManageTrainsView(),
+      binding: AdminBinding(),
+      middlewares: [AdminMiddleware()],
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: AppRoutes.MANAGE_STATIONS,
+      page: () => const ManageStationsView(),
+      binding: AdminBinding(),
+      middlewares: [AdminMiddleware()],
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: AppRoutes.MANAGE_BOOKINGS,
+      page: () => const ManageBookingsView(),
+      binding: AdminBinding(),
+      middlewares: [AdminMiddleware()],
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: AppRoutes.MANAGE_FARES,
+      page: () => const FareManagementView(),
+      binding: AdminBinding(),
+      middlewares: [AdminMiddleware()],
+      transition: Transition.rightToLeft,
     ),
   ];
 }

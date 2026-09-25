@@ -233,7 +233,7 @@ class SearchView extends GetView<TrainSearchController> {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: InkWell(
-        onTap: () => Get.toNamed(AppRoutes.SEAT_SELECTION, arguments: schedule),
+        onTap: () => Get.toNamed(AppRoutes.CLASS_SELECTION, arguments: schedule),
         borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.all(16),
