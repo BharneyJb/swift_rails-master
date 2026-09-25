@@ -297,19 +297,7 @@ class HomeView extends GetView<HomeController> {
         side: const BorderSide(color: AppColors.border),
       ),
       child: InkWell(
-        onTap: () {
-          Get.toNamed(AppRoutes.SEARCH_TRAINS);
-          try {
-            final searchController = Get.find<TrainSearchController>();
-            searchController.searchByCriteria(
-              fromName: schedule.from,
-              toName: schedule.to,
-              date: schedule.departureTime,
-            );
-          } catch (e) {
-            debugPrint('Error triggering search: $e');
-          }
-        },
+        onTap: () => Get.toNamed(AppRoutes.SEAT_SELECTION, arguments: schedule),
         borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.all(16),

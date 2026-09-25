@@ -41,17 +41,22 @@ class HomeController extends GetxController {
       final response = await _apiService.get(ApiEndpoints.schedules);
 
       if (response.statusCode == 200) {
-        // API may return a bare array or a wrapped {schedules: [...]}
         final dynamic raw = response.data;
         final List<dynamic> data = raw is List
             ? raw
             : (raw is Map ? (raw['schedules'] ?? raw['data'] ?? []) : []);
-        upcomingSchedules.value =
-            data.map((e) => ScheduleModel.fromJson(e as Map<String, dynamic>)).toList();
+
+        // Filter: Only trains departing in the future with available seats
+        final now = DateTime.now();
+        upcomingSchedules.value = data
+            .map((e) => ScheduleModel.fromJson(e as Map<String, dynamic>))
+            .where((schedule) =>
+                schedule.departureTime.isAfter(now) &&
+                schedule.availableSeats > 0)
+            .toList();
       }
     } catch (e) {
       debugPrint('Error fetching schedules: $e');
-      // Use mock data for development
       _loadMockSchedules();
     } finally {
       isLoading.value = false;
