@@ -89,6 +89,36 @@ class TrainSearchController extends GetxController {
     selectedDate.value = date;
   }
 
+  Future<void> searchByCriteria({
+    required String fromName,
+    required String toName,
+    required DateTime date,
+  }) async {
+    final from = _findStationByName(fromName);
+    final to = _findStationByName(toName);
+
+    if (from == null || to == null) {
+      Get.snackbar(
+        'Error',
+        'Could not resolve stations for the selected route',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    fromStation.value = from;
+    toStation.value = to;
+    selectedDate.value = date;
+
+    await searchTrains();
+  }
+
+  StationModel? _findStationByName(String name) {
+    return stations.firstWhereOrNull(
+      (s) => s.name.toLowerCase().trim() == name.toLowerCase().trim(),
+    );
+  }
+
   void _loadMockStations() {
     stations.value = [
       StationModel(id: 1, name: 'Lagos Central', city: 'Lagos', code: 'LOS'),

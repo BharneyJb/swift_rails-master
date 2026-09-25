@@ -176,7 +176,7 @@ class ManageStationsView extends GetView<StationManagementController> {
 
                     bool success;
                     if (isEditing) {
-                      success = await controller.updateStation(station!.id, newStation);
+                      success = await controller.updateStation(station.id, newStation);
                     } else {
                       success = await controller.createStation(newStation);
                     }

@@ -169,7 +169,7 @@ class ManageTrainsView extends GetView<TrainManagementController> {
 
                     bool success;
                     if (isEditing) {
-                      success = await controller.updateTrain(train!.id, newTrain);
+                      success = await controller.updateTrain(train.id, newTrain);
                     } else {
                       success = await controller.createTrain(newTrain);
                     }

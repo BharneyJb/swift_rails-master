@@ -130,7 +130,7 @@ class AdminDashboardView extends GetView<AdminController> {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: AppColors.border),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

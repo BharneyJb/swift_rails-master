@@ -20,7 +20,7 @@ class AdminMiddleware extends GetMiddleware {
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
-      return RouteSettings(name: AppRoutes.HOME);
+      return const RouteSettings(name: AppRoutes.HOME);
     }
 
     return null; // Allow access

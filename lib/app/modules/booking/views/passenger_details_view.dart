@@ -39,7 +39,7 @@ class PassengerDetailsView extends GetView<BookingController> {
                 children: [
                   // Passenger Type Dropdown
                   Obx(() => DropdownButtonFormField<String>(
-                    value: controller.passengerType.value,
+                    initialValue: controller.passengerType.value,
                     decoration: const InputDecoration(
                       labelText: 'Passenger Type',
                       prefixIcon: Icon(Iconsax.user),

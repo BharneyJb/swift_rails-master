@@ -88,7 +88,7 @@ class RegisterView extends GetView<AuthController> {
 
                 // ── Gender ────────────────────────────────────────────────────
                 Obx(() => DropdownButtonFormField<String>(
-                      value: controller.registerGender.value.isEmpty
+                      initialValue: controller.registerGender.value.isEmpty
                           ? null
                           : controller.registerGender.value,
                       decoration: const InputDecoration(
@@ -115,10 +115,10 @@ class RegisterView extends GetView<AuthController> {
                       : '${dob.year}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}';
                   return TextFormField(
                     readOnly: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Date of Birth',
                       hintText: 'Select date',
-                      prefixIcon: const Icon(Iconsax.calendar),
+                      prefixIcon: Icon(Iconsax.calendar),
                     ),
                     controller: TextEditingController(text: dobText),
                     onTap: () async {

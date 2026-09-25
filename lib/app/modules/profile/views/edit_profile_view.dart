@@ -135,7 +135,7 @@ class EditProfileView extends GetView<ProfileController> {
 
               // ── Gender ──────────────────────────────────────────────────────
               Obx(() => DropdownButtonFormField<String>(
-                    value: controller.selectedGender.value.isEmpty
+                    initialValue: controller.selectedGender.value.isEmpty
                         ? null
                         : controller.selectedGender.value,
                     decoration: InputDecoration(

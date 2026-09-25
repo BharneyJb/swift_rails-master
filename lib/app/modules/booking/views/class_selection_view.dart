@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../../../config/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 import '../controllers/booking_controller.dart';
-import '../../../data/models/travel_class_model.dart';
 import '../../../data/models/schedule_model.dart';
 
 class ClassSelectionView extends StatefulWidget {

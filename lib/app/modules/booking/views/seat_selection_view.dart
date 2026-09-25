@@ -25,7 +25,7 @@ class SeatSelectionView extends GetView<BookingController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.event_seat, size: 64, color: AppColors.textSecondary),
+                const Icon(Icons.event_seat, size: 64, color: AppColors.textSecondary),
                 const SizedBox(height: 16),
                 const Text('No seats available for this class'),
                 const SizedBox(height: 24),
@@ -154,7 +154,7 @@ class SeatSelectionView extends GetView<BookingController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildSeat(row.length > 0 ? row[0] : null),
+                _buildSeat(row.isNotEmpty ? row[0] : null),
                 if (row.length > 1) _buildSeat(row[1]),
                 const SizedBox(width: 40), // Aisle
                 if (row.length > 2) _buildSeat(row[2]),

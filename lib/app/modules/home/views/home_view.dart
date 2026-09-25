@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../../config/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 import '../../main/controllers/main_controller.dart';
+import '../../search/controllers/search_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -293,10 +294,22 @@ class HomeView extends GetView<HomeController> {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: AppColors.border),
+        side: const BorderSide(color: AppColors.border),
       ),
       child: InkWell(
-        onTap: () => Get.toNamed(AppRoutes.SEAT_SELECTION, arguments: schedule),
+        onTap: () {
+          Get.toNamed(AppRoutes.SEARCH_TRAINS);
+          try {
+            final searchController = Get.find<TrainSearchController>();
+            searchController.searchByCriteria(
+              fromName: schedule.from,
+              toName: schedule.to,
+              date: schedule.departureTime,
+            );
+          } catch (e) {
+            debugPrint('Error triggering search: $e');
+          }
+        },
         borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -308,7 +321,7 @@ class HomeView extends GetView<HomeController> {
                 children: [
                   Row(
                     children: [
-                      Icon(Iconsax.bus, size: 18, color: AppColors.primary),
+                      const Icon(Iconsax.bus, size: 18, color: AppColors.primary),
                       const SizedBox(width: 8),
                       Text(
                         schedule.trainName,
@@ -325,9 +338,9 @@ class HomeView extends GetView<HomeController> {
                       color: AppColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Text(
+                    child: const Text(
                       'View Seats',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.primary,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
