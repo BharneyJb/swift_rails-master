@@ -25,14 +25,6 @@ class SplashView extends GetView<SplashController> {
               height: 200,
             ),
             const SizedBox(height: 14),
-            // App Name
-            // Text(
-            //   'Swift Rails',
-            //   style: Theme.of(context).textTheme.displayMedium?.copyWith(
-            //     color: Colors.white,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
             const SizedBox(height: 8),
             Text(
               'Your Journey, Our Priority',

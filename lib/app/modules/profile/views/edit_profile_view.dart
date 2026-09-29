@@ -35,7 +35,7 @@ class EditProfileView extends GetView<ProfileController> {
                         backgroundColor:
                             AppColors.primary.withValues(alpha: 0.1),
                         backgroundImage:
-                            hasAvatar ? NetworkImage(user!.avatar!) : null,
+                            hasAvatar ? NetworkImage(user.avatar!) : null,
                         child: hasAvatar
                             ? null
                             : Text(
