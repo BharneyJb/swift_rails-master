@@ -17,6 +17,7 @@ class ApiEndpoints {
   static const String trains = '/trains';
   static const String stations = '/stations';
   static const String schedules = '/schedules';
+  static const String schedulesUpcoming = '/schedules/upcoming';
   static const String coaches = '/coaches';
   static String trainDetails(int id) => '/trains/$id';
   static String stationDetails(int id) => '/stations/$id';

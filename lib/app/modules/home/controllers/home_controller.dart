@@ -38,26 +38,22 @@ class HomeController extends GetxController {
   Future<void> fetchUpcomingSchedules() async {
     try {
       isLoading.value = true;
-      final response = await _apiService.get(ApiEndpoints.schedules);
+      // /schedules/upcoming returns only today's trains that:
+      //   • depart after NOW
+      //   • have at least one available seat on their train
+      final response = await _apiService.get(ApiEndpoints.schedulesUpcoming);
 
       if (response.statusCode == 200) {
-        final dynamic raw = response.data;
-        final List<dynamic> data = raw is List
-            ? raw
-            : (raw is Map ? (raw['schedules'] ?? raw['data'] ?? []) : []);
-
-        // Filter: Only trains departing in the future with available seats
-        final now = DateTime.now();
+        final List<dynamic> data = response.data is List
+            ? response.data as List<dynamic>
+            : [];
         upcomingSchedules.value = data
             .map((e) => ScheduleModel.fromJson(e as Map<String, dynamic>))
-            .where((schedule) =>
-                schedule.departureTime.isAfter(now) &&
-                schedule.availableSeats > 0)
             .toList();
       }
     } catch (e) {
-      debugPrint('Error fetching schedules: $e');
-      _loadMockSchedules();
+      debugPrint('Error fetching upcoming schedules: $e');
+      // Leave list empty on error — don't show stale mock data
     } finally {
       isLoading.value = false;
     }
@@ -90,31 +86,6 @@ class HomeController extends GetxController {
     isRefreshing.value = false;
   }
 
-  void _loadMockSchedules() {
-    // Mock data for development
-    upcomingSchedules.value = [
-      ScheduleModel(
-        id: 1,
-        trainName: 'Morning Express',
-        from: 'Lagos',
-        to: 'Ibadan',
-        departureTime: DateTime.now().add(const Duration(hours: 2)),
-        arrivalTime: DateTime.now().add(const Duration(hours: 4)),
-        price: 5000,
-        availableSeats: 45,
-      ),
-      ScheduleModel(
-        id: 2,
-        trainName: 'Evening Commuter',
-        from: 'Abuja',
-        to: 'Kaduna',
-        departureTime: DateTime.now().add(const Duration(hours: 5)),
-        arrivalTime: DateTime.now().add(const Duration(hours: 7)),
-        price: 3500,
-        availableSeats: 32,
-      ),
-    ];
-  }
 
   void _loadMockPopularRoutes() {
     popularRoutes.value = [

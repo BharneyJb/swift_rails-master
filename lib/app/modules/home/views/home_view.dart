@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import '../../../config/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
 import '../../main/controllers/main_controller.dart';
-import '../../search/controllers/search_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -297,7 +296,7 @@ class HomeView extends GetView<HomeController> {
         side: const BorderSide(color: AppColors.border),
       ),
       child: InkWell(
-        onTap: () => Get.toNamed(AppRoutes.SEAT_SELECTION, arguments: schedule),
+        onTap: () => Get.toNamed(AppRoutes.CLASS_SELECTION, arguments: schedule),
         borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -323,15 +322,15 @@ class HomeView extends GetView<HomeController> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
+                      color: AppColors.success.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Text(
-                      'View Seats',
+                      'Book Now',
                       style: TextStyle(
-                        color: AppColors.primary,
+                        color: AppColors.success,
                         fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
@@ -414,13 +413,19 @@ class HomeView extends GetView<HomeController> {
                       ),
                     ],
                   ),
-                  Text(
-                    'From ₦${schedule.price.toStringAsFixed(0)}',
-                    style: const TextStyle(
-                      color: AppColors.primary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    children: [
+                      const Icon(Icons.event_seat, size: 14, color: AppColors.success),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${schedule.availableSeats} seat${schedule.availableSeats == 1 ? '' : 's'} left',
+                        style: const TextStyle(
+                          color: AppColors.success,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -149,6 +149,10 @@ class ApiService extends GetxService {
     return errorMessage;
   }
 
+  // Prevents multiple concurrent 401 errors from each triggering a separate
+  // navigation to /login (race condition when parallel requests all expire).
+  bool _isHandling401 = false;
+
   String _handleResponseError(Response? response) {
     if (response == null) return 'Unknown error occurred';
 
@@ -156,8 +160,13 @@ class ApiService extends GetxService {
       case 400:
         return response.data['message'] ?? 'Bad request';
       case 401:
-        _storageService.clearSession();
-        Get.offAllNamed('/login');
+        if (!_isHandling401) {
+          _isHandling401 = true;
+          _storageService.clearSession();
+          Get.offAllNamed('/login');
+          // Reset after navigation so future sessions work correctly
+          Future.delayed(const Duration(seconds: 2), () => _isHandling401 = false);
+        }
         return 'Session expired. Please login again.';
       case 403:
         return 'Access forbidden';

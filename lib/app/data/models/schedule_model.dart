@@ -32,22 +32,22 @@ class ScheduleModel {
 
     return ScheduleModel(
       id: json['id'] ?? 0,
-      trainName: json['name'] ?? json['train_name'] ?? '',
-      from: stationStr(json['departureStation'] ?? json['from'] ?? json['departure_station'] ?? ''),
-      to: stationStr(json['stationId'] ?? json['to'] ?? json['arrival_station'] ?? ''),
+      trainName: json['trainName'] ?? json['name'] ?? json['train_name'] ?? '',
+      from: stationStr(json['from'] ?? json['departureStation'] ?? json['departure_station'] ?? ''),
+      to: stationStr(json['to'] ?? json['arrival_station'] ?? ''),
       departureTime: json['departureTime'] != null
-          ? DateTime.parse(json['departureTime'])
+          ? DateTime.parse(json['departureTime'].toString())
           : json['departure_time'] != null
-              ? DateTime.parse(json['departure_time'])
+              ? DateTime.parse(json['departure_time'].toString())
               : DateTime.now(),
       arrivalTime: json['arrivalTime'] != null
-          ? DateTime.parse(json['arrivalTime'])
+          ? DateTime.parse(json['arrivalTime'].toString())
           : json['arrival_time'] != null
-              ? DateTime.parse(json['arrival_time'])
+              ? DateTime.parse(json['arrival_time'].toString())
               : DateTime.now(),
       price: ((json['price'] ?? 0) as num).toDouble(),
-      availableSeats: json['available_seats'] ?? json['availableSeats'] ?? 0,
-      trainNumber: json['train_number'] ?? json['trainId']?.toString(),
+      availableSeats: (json['available_seats'] ?? json['availableSeats'] ?? 0) as int,
+      trainNumber: json['trainNumber'] ?? json['train_number'] ?? json['trainId']?.toString(),
       trainClass: json['train_class'] ?? json['trainClass'],
     );
   }
