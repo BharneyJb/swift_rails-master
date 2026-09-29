@@ -6,41 +6,95 @@ import '../../../config/theme/app_colors.dart';
 
 class TicketDetailsView extends StatelessWidget {
   final Map<String, dynamic>? ticket;
-  
-  const TicketDetailsView({super.key, this.ticket});
+
+  const TicketDetailsView({
+    super.key,
+    this.ticket,
+  });
+
+  String formatTime(String? dateTimeString) {
+    if (dateTimeString == null || dateTimeString.isEmpty) {
+      return '--:--';
+    }
+
+    try {
+      final dateTime = DateTime.parse(dateTimeString).toLocal();
+
+      final hour = dateTime.hour.toString().padLeft(2, '0');
+      final minute = dateTime.minute.toString().padLeft(2, '0');
+
+      return '$hour:$minute';
+    } catch (e) {
+      return '--:--';
+    }
+  }
+
+  String formatDate(String? dateTimeString) {
+    if (dateTimeString == null || dateTimeString.isEmpty) {
+      return '';
+    }
+
+    try {
+      final dateTime = DateTime.parse(dateTimeString).toLocal();
+
+      const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ];
+
+      return '${dateTime.day} ${months[dateTime.month - 1]} ${dateTime.year}';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  String formatAmount(dynamic amount) {
+    if (amount == null) return '₦0';
+
+    final value = double.tryParse(amount.toString()) ?? 0;
+
+    return '₦${value.toStringAsFixed(0)}';
+  }
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> ticketData = ticket ?? (Get.arguments as Map<String, dynamic>?) ?? {};
-    
-    String formatTime(String? dateTimeString) {
-      if (dateTimeString == null || dateTimeString.isEmpty) return '00:00';
-      try {
-        // If it's an ISO 8601 string (contains T)
-        if (dateTimeString.contains('T')) {
-          final parts = dateTimeString.split('T');
-          if (parts.length > 1) {
-            return parts[1].substring(0, 5);
-          }
-        }
-        // If it's just a time string (HH:mm:ss)
-        if (dateTimeString.length >= 5) {
-          return dateTimeString.substring(0, 5);
-        }
-        return dateTimeString;
-      } catch (e) {
-        return '00:00';
-      }
-    }
+    final Map<String, dynamic> ticketData =
+        ticket ?? (Get.arguments as Map<String, dynamic>?) ?? {};
 
+    final bookingId = ticketData['id'];
 
-    final date = ticketData['date']?.toString().split('T')[0] ?? '';
-    final departureTime = formatTime(ticketData['bookingDepartureTime']?.toString());
-    final arrivalTime = formatTime(ticketData['bookingArrivalTime']?.toString());
-    final departureStation = ticketData['departureStation']?.toString() ?? 'Departure';
-    final arrivalStation = ticketData['arrivalStation']?.toString() ?? 'Arrival';
-    final trainName = ticketData['trainName']?.toString() ?? ticketData['scheduleName']?.toString() ?? 'Train';
-    final seatInfos = ticketData['seatNumbers']?.toString() ?? 'Unassigned';
+    final departureStation =
+        ticketData['fromStation']?.toString() ?? 'Departure';
+
+    final arrivalStation = ticketData['toStation']?.toString() ?? 'Arrival';
+
+    final departureTime = formatTime(ticketData['departureTime']?.toString());
+
+    final arrivalTime = formatTime(ticketData['arrivalTime']?.toString());
+
+    final date = formatDate(ticketData['date']?.toString());
+
+    final trainNumber = ticketData['trainNumber']?.toString() ??
+        ticketData['trainName']?.toString() ??
+        'Train';
+
+    final seat = ticketData['seats']?.toString() ?? 'Unassigned';
+
+    final passengerType = ticketData['passengerTypes']?.toString() ?? 'Adult';
+
+    final travelClass = ticketData['travelClass']?.toString() ?? 'Standard';
+
+    final totalAmount = ticketData['totalAmount'];
 
     return Scaffold(
       appBar: AppBar(
@@ -53,41 +107,49 @@ class TicketDetailsView extends StatelessWidget {
             Card(
               elevation: 4,
               shadowColor: Colors.black12,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    // Header
+                    // Booking ID + Travel Class
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Ticket #${ticketData['id']}',
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          'Ticket #$bookingId',
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.primary.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            ticketData['travelClass'] ?? 'Standard',
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            travelClass,
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                           ),
                         ),
                       ],
                     ),
+
                     const Divider(height: 32),
-                    
-                    // Route Details
+
+                    // Route
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -97,30 +159,46 @@ class TicketDetailsView extends StatelessWidget {
                             children: [
                               Text(
                                 departureStation,
-                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                               ),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: 6),
                               Text(
                                 departureTime,
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  color: AppColors.textSecondary,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: AppColors.textSecondary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
                             ],
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                          ),
                           child: Column(
                             children: [
-                              const Icon(Iconsax.arrow_right_1, color: AppColors.textSecondary),
+                              const Icon(
+                                Iconsax.arrow_right_1,
+                                color: AppColors.textSecondary,
+                              ),
+                              const SizedBox(height: 4),
                               Text(
                                 date,
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: AppColors.textSecondary,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color: AppColors.textSecondary,
+                                    ),
                               ),
                             ],
                           ),
@@ -131,64 +209,87 @@ class TicketDetailsView extends StatelessWidget {
                             children: [
                               Text(
                                 arrivalStation,
-                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                 textAlign: TextAlign.right,
                               ),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: 6),
                               Text(
                                 arrivalTime,
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  color: AppColors.textSecondary,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: AppColors.textSecondary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
-                    
-                    // Train info
-                    Row(
-                      children: [
-                        const Icon(Icons.train, size: 20, color: AppColors.textSecondary),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Train: $trainName',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
+
+                    const SizedBox(height: 28),
+
+                    // Train
+                    _infoRow(
+                      context,
+                      Icons.train,
+                      'Train',
+                      trainNumber,
                     ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        const Icon(Icons.event_seat, size: 20, color: AppColors.textSecondary),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Seat: $seatInfos',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
+
+                    const SizedBox(height: 12),
+
+                    // Seat
+                    _infoRow(
+                      context,
+                      Icons.event_seat,
+                      'Seat',
+                      seat,
                     ),
-                    
+
+                    const SizedBox(height: 12),
+
+                    // Passenger type
+                    _infoRow(
+                      context,
+                      Icons.person_outline,
+                      'Passenger',
+                      passengerType,
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    // Amount
+                    _infoRow(
+                      context,
+                      Icons.payments_outlined,
+                      'Amount Paid',
+                      formatAmount(totalAmount),
+                    ),
+
                     const Divider(height: 32),
-                    
+
                     // QR Code
-                    Center(
-                      child: QrImageView(
-                        data: 'TICKET-${ticketData['id']}',
-                        version: QrVersions.auto,
-                        size: 200.0,
-                      ),
+                    QrImageView(
+                      data: 'BOOKING-$bookingId',
+                      version: QrVersions.auto,
+                      size: 200,
                     ),
+
                     const SizedBox(height: 16),
+
                     Text(
                       'Scan this QR code at the station',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.textSecondary,
-                      ),
+                            color: AppColors.textSecondary,
+                          ),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -198,6 +299,38 @@ class TicketDetailsView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _infoRow(
+    BuildContext context,
+    IconData icon,
+    String label,
+    String value,
+  ) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: 20,
+          color: AppColors.textSecondary,
+        ),
+        const SizedBox(width: 10),
+        Text(
+          '$label: ',
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: AppColors.textSecondary,
+              ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+        ),
+      ],
     );
   }
 }
