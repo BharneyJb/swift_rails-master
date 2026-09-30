@@ -15,6 +15,8 @@ class TrainSearchController extends GetxController {
   final RxList<ScheduleModel> searchResults = <ScheduleModel>[].obs;
   final RxBool isSearching = false.obs;
   final RxBool isLoading = false.obs;
+  final RxBool hasSearched = false.obs;
+  final RxBool hasError = false.obs;
 
   @override
   void onInit() {
@@ -33,8 +35,9 @@ class TrainSearchController extends GetxController {
         final List<dynamic> data = raw is List
             ? raw
             : (raw is Map ? (raw['stations'] ?? raw['data'] ?? []) : []);
-        stations.value =
-            data.map((e) => StationModel.fromJson(e as Map<String, dynamic>)).toList();
+        stations.value = data
+            .map((e) => StationModel.fromJson(e as Map<String, dynamic>))
+            .toList();
       }
     } catch (e) {
       debugPrint('Error fetching stations: $e');
@@ -56,8 +59,10 @@ class TrainSearchController extends GetxController {
 
     try {
       isSearching.value = true;
+      hasError.value = false;
       final response = await _apiService.get(
-        ApiEndpoints.schedulesByRoute(fromStation.value!.id, toStation.value!.id),
+        ApiEndpoints.schedulesByRoute(
+            fromStation.value!.id, toStation.value!.id),
         queryParameters: {
           'date': selectedDate.value.toIso8601String(),
         },
@@ -68,11 +73,14 @@ class TrainSearchController extends GetxController {
         final List<dynamic> data = raw is List
             ? raw
             : (raw is Map ? (raw['schedules'] ?? raw['data'] ?? []) : []);
-        searchResults.value =
-            data.map((e) => ScheduleModel.fromJson(e as Map<String, dynamic>)).toList();
+        searchResults.value = data
+            .map((e) => ScheduleModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+        hasSearched.value = true;
       }
     } catch (e) {
       debugPrint('Error searching trains: $e');
+      hasError.value = true;
       _loadMockSearchResults();
     } finally {
       isSearching.value = false;
@@ -125,7 +133,8 @@ class TrainSearchController extends GetxController {
       StationModel(id: 2, name: 'Ibadan Terminal', city: 'Ibadan', code: 'IBD'),
       StationModel(id: 3, name: 'Abuja Station', city: 'Abuja', code: 'ABJ'),
       StationModel(id: 4, name: 'Kano Junction', city: 'Kano', code: 'KAN'),
-      StationModel(id: 5, name: 'Port Harcourt', city: 'Port Harcourt', code: 'PHC'),
+      StationModel(
+          id: 5, name: 'Port Harcourt', city: 'Port Harcourt', code: 'PHC'),
     ];
   }
 

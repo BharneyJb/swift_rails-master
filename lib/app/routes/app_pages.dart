@@ -14,6 +14,7 @@ import '../modules/main/views/main_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/search/bindings/search_binding.dart';
+import '../modules/search/views/search_view.dart';
 import '../modules/booking/bindings/booking_binding.dart';
 import '../modules/booking/views/class_selection_view.dart';
 import '../modules/booking/views/seat_selection_view.dart';
@@ -97,6 +98,16 @@ class AppPages {
       name: AppRoutes.HOME,
       page: () => const HomeView(),
       binding: HomeBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.SEARCH,
+      page: () => const SearchView(),
+      binding: SearchBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.SEARCH_TRAINS,
+      page: () => const SearchView(),
+      binding: SearchBinding(),
     ),
 
     // Booking Flow

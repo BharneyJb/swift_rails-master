@@ -8,6 +8,7 @@ class TicketsController extends GetxController {
 
   final RxList tickets = [].obs;
   final RxBool isLoading = false.obs;
+  final RxBool hasError = false.obs;
 
   @override
   void onInit() {
@@ -18,6 +19,7 @@ class TicketsController extends GetxController {
   Future<void> fetchTickets() async {
     try {
       isLoading.value = true;
+      hasError.value = false;
       final response = await _apiService.get(ApiEndpoints.bookings);
 
       if (response.statusCode == 200) {
@@ -33,6 +35,7 @@ class TicketsController extends GetxController {
       }
     } catch (e) {
       debugPrint('Error fetching tickets: $e');
+      hasError.value = true;
       // Keep empty list on error (e.g. 404 = no bookings yet)
       tickets.value = [];
     } finally {

@@ -16,6 +16,7 @@ abstract class AppRoutes {
 
   // Booking Routes
   static const CLASS_SELECTION = '/class-selection';
+  static const SEARCH = '/search';
   static const SEARCH_TRAINS = '/search-trains';
   static const TRAIN_DETAILS = '/train-details';
   static const SEAT_SELECTION = '/seat-selection';

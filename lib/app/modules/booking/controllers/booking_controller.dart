@@ -105,7 +105,11 @@ class BookingController extends GetxController {
   /// Selects a seat if it is Available
   void selectSeat(SeatModel seat) {
     if (seat.status != 'Available') {
-      Get.snackbar('Unavailable', 'This seat is already taken', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Seat unavailable',
+        'Sorry, ${seat.code} has just been booked. Please select another seat.',
+        snackPosition: SnackPosition.BOTTOM
+      );
       return;
     }
     selectedSeat.value = seat;
@@ -143,7 +147,11 @@ class BookingController extends GetxController {
       bookingId.value = booking.bookingId;
       return true;
     } catch (e) {
-      Get.snackbar('Booking Failed', e.toString(), snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Payment failure',
+        'Payment wasn\'t completed. Your seat has not been charged.',
+        snackPosition: SnackPosition.BOTTOM
+      );
       return false;
     } finally {
       isLoading.value = false;

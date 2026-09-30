@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import '../../../config/theme/app_colors.dart';
 import '../../../routes/app_routes.dart';
+import '../../../widgets/app_empty_state.dart';
 import '../controllers/search_controller.dart';
 
 class SearchView extends GetView<TrainSearchController> {
@@ -97,32 +98,51 @@ class SearchView extends GetView<TrainSearchController> {
               
               // Search Results
               Obx(() {
-                if (controller.searchResults.isEmpty) {
-                  return Center(
-                    child: Column(
-                      children: [
-                        Icon(
-                          Iconsax.search_normal,
-                          size: 80,
-                          color: AppColors.textSecondary.withValues(alpha: 0.5),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Search for trains',
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
+                // Network / server error
+                if (controller.hasError.value) {
+                  return AppEmptyState(
+                    icon: Icons.wifi_off_rounded,
+                    iconColor: AppColors.error,
+                    title: "Couldn't connect to SwyftRails",
+                    subtitle: 'Network failure. Please check your connection and try again.',
+                    buttonLabel: 'Try Again',
+                    buttonIcon: const Icon(Icons.refresh_rounded),
+                    onButtonTap: controller.searchTrains,
                   );
                 }
-                
+
+                // Idle — user hasn't searched yet
+                if (!controller.hasSearched.value) {
+                  return const AppEmptyState(
+                    icon: Iconsax.search_normal,
+                    title: 'Find Your Train',
+                    subtitle:
+                        'Select your departure, destination and travel date, then tap Search.',
+                  );
+                }
+
+                // Searched but no results
+                if (controller.searchResults.isEmpty) {
+                  return AppEmptyState(
+                    icon: Icons.train,
+                    title: 'No trains available',
+                    subtitle:
+                        'No trains available for this route and date.',
+                    buttonLabel: 'Change Search',
+                    buttonIcon: const Icon(Icons.edit_rounded),
+                    onButtonTap: () {
+                      controller.hasSearched.value = false;
+                      controller.searchResults.clear();
+                    },
+                  );
+                }
+
+                // Results
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${controller.searchResults.length} trains found',
+                      '${controller.searchResults.length} train${controller.searchResults.length == 1 ? '' : 's'} found',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 16),
