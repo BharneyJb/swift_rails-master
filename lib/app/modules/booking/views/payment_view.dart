@@ -28,16 +28,13 @@ class PaymentView extends GetView<BookingController> {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 24),
-
               _buildBookingSummary(context),
               const SizedBox(height: 32),
-
               Text(
                 'Payment Method',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 16),
-
               _buildPaymentOption(
                 context,
                 'Card Payment',
@@ -46,7 +43,6 @@ class PaymentView extends GetView<BookingController> {
                 true,
               ),
               const SizedBox(height: 12),
-
               _buildPaymentOption(
                 context,
                 'Bank Transfer',
@@ -55,7 +51,6 @@ class PaymentView extends GetView<BookingController> {
                 false,
               ),
               const SizedBox(height: 12),
-
               _buildPaymentOption(
                 context,
                 'USSD',
@@ -64,19 +59,19 @@ class PaymentView extends GetView<BookingController> {
                 false,
               ),
               const SizedBox(height: 40),
-
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    final success = await controller.confirmBooking();
-                    if (success) {
-                      Get.offAllNamed(AppRoutes.PAYMENT_SUCCESS);
-                    }
+                    final success = await controller.startPayment();
+                    // if (success) {
+                    //   Get.offAllNamed(AppRoutes.PAYMENT_SUCCESS);
+                    // }
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
                   ),
                   child: const Text(
                     'Confirm & Book Now',
@@ -114,7 +109,8 @@ class PaymentView extends GetView<BookingController> {
           children: [
             _summaryRow(context, 'Train', schedule.trainName),
             _summaryRow(context, 'Route', '${schedule.from} → ${schedule.to}'),
-            _summaryRow(context, 'Date', schedule.departureTime.toString().split(' ')[0]),
+            _summaryRow(context, 'Date',
+                schedule.departureTime.toString().split(' ')[0]),
             _summaryRow(context, 'Class', travelClass.travelClass),
             _summaryRow(context, 'Coach', coach?.code ?? 'N/A'),
             _summaryRow(context, 'Seat', seat.code),
@@ -124,14 +120,17 @@ class PaymentView extends GetView<BookingController> {
               children: [
                 Text(
                   'Total Amount',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Text(
                   '₦${controller.totalPrice.toStringAsFixed(0)}',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
                 ),
               ],
             ),
@@ -147,8 +146,16 @@ class PaymentView extends GetView<BookingController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textSecondary)),
-          Text(value, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500)),
+          Text(label,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: AppColors.textSecondary)),
+          Text(value,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontWeight: FontWeight.w500)),
         ],
       ),
     );
@@ -170,12 +177,17 @@ class PaymentView extends GetView<BookingController> {
         ),
       ),
       child: ListTile(
-        leading: Icon(icon, color: isSelected ? AppColors.primary : AppColors.textSecondary, size: 28),
-        title: Text(title, style: TextStyle(fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
+        leading: Icon(icon,
+            color: isSelected ? AppColors.primary : AppColors.textSecondary,
+            size: 28),
+        title: Text(title,
+            style: TextStyle(
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
         subtitle: Text(subtitle),
         trailing: isSelected
-          ? const Icon(Icons.check_circle, color: AppColors.primary)
-          : const Icon(Icons.radio_button_unchecked, color: AppColors.textSecondary),
+            ? const Icon(Icons.check_circle, color: AppColors.primary)
+            : const Icon(Icons.radio_button_unchecked,
+                color: AppColors.textSecondary),
       ),
     );
   }

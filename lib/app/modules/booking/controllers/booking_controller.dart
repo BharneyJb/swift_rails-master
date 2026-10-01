@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swyft_rails/app/routes/app_routes.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/utils/api_endpoints.dart';
 import '../../../data/models/schedule_model.dart';
@@ -7,9 +8,14 @@ import '../../../data/models/seat_model.dart';
 import '../../../data/models/coach_model.dart';
 import '../../../data/models/travel_class_model.dart';
 import '../../../data/models/booking_model.dart';
+import 'package:paystack_flutter_sdk/paystack_flutter_sdk.dart';
 
 class BookingController extends GetxController {
   final ApiService _apiService = Get.find();
+
+  final Paystack _paystack = Paystack();
+  static const String _paystackPublicKey =
+      'pk_test_d770b204243e0dfc1cd0e1007886b625c765d2e5';
 
   // --- STATE ---
 
@@ -67,7 +73,8 @@ class BookingController extends GetxController {
       isLoading.value = true;
       final response = await _apiService.get(ApiEndpoints.faresPricing);
       final List data = response.data;
-      fareOptions.assignAll(data.map((e) => TravelClassModel.fromJson(e)).toList());
+      fareOptions
+          .assignAll(data.map((e) => TravelClassModel.fromJson(e)).toList());
     } catch (e) {
       Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     } finally {
@@ -83,18 +90,22 @@ class BookingController extends GetxController {
 
   /// GET /schedules/:id/options?travelClassId=N
   Future<void> fetchSeatsForClass() async {
-    if (selectedSchedule.value == null || selectedTravelClass.value == null) return;
+    if (selectedSchedule.value == null || selectedTravelClass.value == null)
+      return;
 
     try {
       isLoading.value = true;
       final response = await _apiService.get(
         ApiEndpoints.scheduleOptions(selectedSchedule.value!.id),
-        queryParameters: {'travelClassId': selectedTravelClass.value!.travelClassId},
+        queryParameters: {
+          'travelClassId': selectedTravelClass.value!.travelClassId
+        },
       );
 
       // Backend returns {schedule, travelClass, coaches: [...]}
       final List coachesData = response.data['coaches'];
-      coachesWithSeats.assignAll(coachesData.map((e) => CoachModel.fromJson(e)).toList());
+      coachesWithSeats
+          .assignAll(coachesData.map((e) => CoachModel.fromJson(e)).toList());
     } catch (e) {
       Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     } finally {
@@ -105,22 +116,25 @@ class BookingController extends GetxController {
   /// Selects a seat if it is Available
   void selectSeat(SeatModel seat) {
     if (seat.status != 'Available') {
-      Get.snackbar(
-        'Seat unavailable',
-        'Sorry, ${seat.code} has just been booked. Please select another seat.',
-        snackPosition: SnackPosition.BOTTOM
-      );
+      Get.snackbar('Seat unavailable',
+          'Sorry, ${seat.code} has just been booked. Please select another seat.',
+          snackPosition: SnackPosition.BOTTOM);
       return;
     }
     selectedSeat.value = seat;
     // Automatically select the coach as well
-    selectedCoach.value = coachesWithSeats.firstWhere((c) => c.id == seat.coachId);
+    selectedCoach.value =
+        coachesWithSeats.firstWhere((c) => c.id == seat.coachId);
   }
 
   /// POST /bookings
-  Future<bool> confirmBooking() async {
+  Future<bool> createPendingBooking() async {
     if (selectedSeat.value == null) {
-      Get.snackbar('Error', 'Please select a seat', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Please select a seat',
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return false;
     }
 
@@ -141,18 +155,112 @@ class BookingController extends GetxController {
         ],
       };
 
-      final response = await _apiService.post(ApiEndpoints.createBooking, data: payload);
+      final response = await _apiService.post(
+        ApiEndpoints.createBooking,
+        data: payload,
+      );
+
       final booking = BookingModel.fromJson(response.data);
 
       bookingId.value = booking.bookingId;
+
       return true;
     } catch (e) {
+      debugPrint('Booking creation error: $e');
+
       Get.snackbar(
-        'Payment failure',
-        'Payment wasn\'t completed. Your seat has not been charged.',
-        snackPosition: SnackPosition.BOTTOM
+        'Booking failed',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
       );
+
       return false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> startPayment() async {
+    try {
+      isLoading.value = true;
+
+      // Create the booking first.
+      final bookingCreated = await createPendingBooking();
+
+      if (!bookingCreated) {
+        return;
+      }
+
+      // Ask our backend to initialize the Paystack transaction.
+      final paymentResponse = await _apiService.post(
+        ApiEndpoints.initializePayment,
+        data: {
+          'bookingId': int.parse(bookingId.value),
+        },
+      );
+
+      final paymentData = paymentResponse.data;
+
+      final accessCode = paymentData['accessCode'];
+      final reference = paymentData['reference'];
+
+      if (accessCode == null || reference == null) {
+        throw Exception(
+          'Invalid payment initialization response',
+        );
+      }
+
+      debugPrint('Paystack reference: $reference');
+
+      // Initialize Paystack SDK.
+      _paystack.initialize(
+        _paystackPublicKey,
+        true,
+      );
+
+      // Open Paystack checkout.
+      final transactionResponse = await _paystack.launch(
+        accessCode,
+      );
+
+      debugPrint(
+        'Paystack transaction status: '
+        '${transactionResponse.status}',
+      );
+
+      if (transactionResponse.status == 'success') {
+        // Ask our backend to verify the transaction.
+        final verificationResponse = await _apiService.get(
+          ApiEndpoints.verifyPayment(reference),
+        );
+
+        final verificationData = verificationResponse.data;
+
+        debugPrint(
+          'Payment verification: $verificationData',
+        );
+
+        if (verificationData['status'] == 'Paid') {
+          Get.offAllNamed(
+            AppRoutes.PAYMENT_SUCCESS,
+          );
+          return;
+        }
+      }
+
+      Get.snackbar(
+        'Payment not completed',
+        'Your payment was not completed.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } catch (e) {
+      debugPrint('Payment error: $e');
+
+      Get.snackbar(
+        'Payment failed',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } finally {
       isLoading.value = false;
     }

@@ -9,7 +9,7 @@ class ApiEndpoints {
   static const String verifyOtp = '/verify-otp';
   static const String resetPassword = '/reset-password';
 
-  // Customer/User Endpoints
+  // Customer Endpoints
   static const String profile = '/customers';
   static const String updateProfile = '/customers';
 
@@ -30,6 +30,9 @@ class ApiEndpoints {
   static const String bookings = '/bookings';
   static const String createBooking = '/bookings';
   static String bookingDetails(int id) => '/bookings/$id';
+  static const String initializePayment = '/payment/initialize';
+  static String verifyPayment(String reference) =>
+      '/payments/verify/$reference';
 
   // Seat Endpoints
   static const String seats = '/seats';
